@@ -40,7 +40,7 @@ Return Done replaces it with:
 
 ## The story
 
-Return Done was co-founded in Chicago in 2023 by two graduate students at Illinois Institute of Technology.
+Return Done was co-founded in Chicago in 2023 by four graduate students at Illinois Institute of Technology.
 We built the product ourselves: a return request form, pickup scheduling, online payment, customer
 confirmations and an operations inbox for every request. Then we tested it for real.
 
@@ -52,7 +52,7 @@ The concept held up at that early stage: people wanted it, and the software did 
 
 The experiment showed us that the hard part of Return Done wasn't the software. It was last-mile logistics:
 routing, timing, verifying items, carrier and store cut-offs, and customers who aren't home. Each of those
-gets harder as volume grows. With a team of two, we chose not to keep scaling the operation.
+gets harder as volume grows. With a team of four, we chose not to keep scaling the operation.
 
 We count that as a useful result. A small, real test answered the question it needed to answer.
 
@@ -298,7 +298,7 @@ Things to try:
 
 ## Original startup
 
-- **Co-founded:** Chicago, 2023, by two graduate students at Illinois Institute of Technology
+- **Co-founded:** Chicago, 2023, by four graduate students at Illinois Institute of Technology
 - **Tested with:** a small number of student customers around the Illinois Tech campus, found through posters
 - **Ran:** real doorstep pickups, with items checked at the door, packed, labeled and returned
 - **Original stack:** Create React App + TypeScript frontend, ASP.NET Core 6 email API on Azure, Stripe

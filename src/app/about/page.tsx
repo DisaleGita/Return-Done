@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const JOURNEY = [
   {
     label: "The itch",
-    body: "Two graduate students in Chicago noticed how much effort a simple return took: labels, boxes, a trip across town, a line, and then weeks of checking for the refund.",
+    body: "Four graduate students in Chicago noticed how much effort a simple return took: labels, boxes, a trip across town, a line, and then weeks of checking for the refund.",
   },
   {
     label: "Building it",
@@ -29,7 +29,7 @@ const JOURNEY = [
   },
   {
     label: "Pausing",
-    body: "The software held up. The operations were the hard part. We chose not to keep scaling it with a team of two.",
+    body: "The software held up. The operations were the hard part. We chose not to keep scaling it with a team of four.",
   },
   {
     label: "2026 rebuild",
@@ -95,7 +95,7 @@ export default function AboutPage() {
             returns had become.
           </p>
           <p>
-            What began as an idea between two graduate students turned into a working product that
+            What began as an idea between four graduate students turned into a working product that
             we tested with customers around the Illinois Tech community. We built the platform, put
             up posters around campus, scheduled real pickups, and learned firsthand that solving the
             software problem was only one part of building a logistics company.
@@ -215,7 +215,7 @@ export default function AboutPage() {
             <p className={styles.founderRole}>{founder.role}</p>
             <p className={styles.founderBody}>
               Co-founded Return Done and led the technology: built the original product and helped
-              define how pickups and returns actually ran. Return Done was a two-person founding
+              define how pickups and returns actually ran. Return Done was a four-person founding
               team.
             </p>
             <p className={styles.founderLinks}>

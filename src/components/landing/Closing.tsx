@@ -16,7 +16,7 @@ export function StorySnippet() {
         <div>
           <p className="eyebrow">Our story</p>
           <h2 id="story-heading" className={styles.sectionTitle}>
-            Started as two grad students, a poster and a pickup.
+            Started as four grad students, a poster and a pickup.
           </h2>
           <p className={styles.sectionLede}>
             Return Done began in Chicago in 2023. We built the product, put posters up around the

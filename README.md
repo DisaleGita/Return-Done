@@ -271,11 +271,12 @@ development.
   bookings still work but no more email is sent, and the confirmation page says so. Each address gets
   at most 3 emails. Change these in `src/lib/config.ts` (`emailLimits`), or with `EMAIL_MAX_RECIPIENTS`
   and `EMAIL_MAX_PER_RECIPIENT` (`0` turns the cap off).
-- **Counting needs Upstash Redis** (free), because Vercel functions don't share memory. In the Vercel
-  project, open **Storage → Upstash for Redis**, choose the free plan (set replication to **None**) and
-  connect it to the project. Vercel adds the connection variables for you, whatever prefix you pick. Only
-  SHA-256 hashes of addresses are stored. Without Redis on Vercel, email pauses rather than risk going over
-  the limit. Locally, an in-memory counter is used.
+- **Counting needs Redis** (free tiers are plenty), because Vercel functions don't share memory. In the
+  Vercel project, open **Storage**, add a Redis database (Upstash or Redis, free plan) and connect it to the
+  project. Vercel adds the connection variable for you, and any prefix works: a Redis URL such as
+  `KV_REDIS_URL` or Upstash's `…_REST_API_URL` / `…_TOKEN`. Only SHA-256 hashes of addresses are stored.
+  Without Redis on Vercel, email pauses rather than risk going over the limit. Locally, an in-memory
+  counter is used.
 
 ## Deployment
 

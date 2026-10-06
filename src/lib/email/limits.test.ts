@@ -142,6 +142,18 @@ describe("findUpstashCredentials", () => {
   });
 });
 
+describe("findRedisUrl", () => {
+  it("finds a Redis connection string under any prefix", async () => {
+    const { findRedisUrl } = await import("./redis-store");
+    expect(findRedisUrl({ KV_REDIS_URL: "rediss://default:pw@host:6379" })).toBe(
+      "rediss://default:pw@host:6379",
+    );
+    expect(findRedisUrl({ REDIS_URL: "redis://localhost:6379" })).toBe("redis://localhost:6379");
+    expect(findRedisUrl({ KV_REDIS_URL: "https://not-redis" })).toBeNull();
+    expect(findRedisUrl({})).toBeNull();
+  });
+});
+
 describe("readLimits", () => {
   it("defaults to 50 people and 3 emails each, and EMAIL_MAX_RECIPIENTS=0 turns it off", () => {
     expect(readLimits({})).toEqual({ maxRecipients: 50, maxPerRecipient: 3 });
@@ -190,6 +202,8 @@ describe("sendConfirmationEmail with limits", () => {
     vi.stubEnv("KV_REST_API_URL", "");
     vi.stubEnv("UPSTASH_REDIS_REST_URL", "");
     vi.stubEnv("STORAGE_REST_API_URL", "");
+    vi.stubEnv("KV_REDIS_URL", "");
+    vi.stubEnv("REDIS_URL", "");
     for (const [key, value] of Object.entries(extra)) vi.stubEnv(key, value);
   }
 

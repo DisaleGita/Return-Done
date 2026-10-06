@@ -12,6 +12,7 @@ import {
   type QuotaStore,
 } from "./quota";
 import { isRecipientAllowed } from "./recipients";
+import { createRedisUrlStore } from "./redis-store";
 import type { EmailResult } from "./types";
 
 export type EmailMode = "off" | "test" | "smtp";
@@ -60,10 +61,10 @@ function getSmtpTransport(): Transporter {
 
 let memoryStore: QuotaStore | null = null;
 
-/** Upstash in production; an in-memory store for local development. */
+/** Upstash REST or a Redis URL in production; in memory for local development. */
 function getQuotaStore(): QuotaStore | null {
-  const upstash = createUpstashStore();
-  if (upstash) return upstash;
+  const redis = createUpstashStore() ?? createRedisUrlStore();
+  if (redis) return redis;
   if (process.env.VERCEL) return null; // memory isn't shared between serverless instances
   return (memoryStore ??= createMemoryStore());
 }
@@ -74,7 +75,7 @@ async function checkQuota(to: string): Promise<QuotaResult> {
   if (!limits) return { ok: true };
   const store = getQuotaStore();
   if (!store) {
-    console.error("[email] EMAIL_MAX_RECIPIENTS is set but no Upstash Redis store is connected");
+    console.error("[email] email limits need a Redis store, but none is connected");
     return { ok: false, reason: "Demo emails are paused while the email limit is being set up" };
   }
   try {

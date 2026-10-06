@@ -228,7 +228,7 @@ All optional. Copy `.env.example` to `.env.local` to set them.
 | `EMAIL_MAX_RECIPIENTS` / `EMAIL_MAX_PER_RECIPIENT`    | Cap on how many different people get email, and emails per address (default 3)                                |
 | `KV_REST_API_URL` / `KV_REST_API_TOKEN`               | Upstash Redis for counting emails. Added automatically by Vercel's Upstash integration                        |
 | `NEXT_PUBLIC_REPO_URL`                                | GitHub link used in the footer and About page                                                                 |
-| `NEXT_PUBLIC_FOUNDER_LINKEDIN_URL`                    | Shows a LinkedIn link on the About page when set                                                              |
+| `NEXT_PUBLIC_FOUNDER_LINKEDIN_URL`                    | Overrides the LinkedIn link on the About page                                                                 |
 
 ### Confirmation emails
 
@@ -337,7 +337,7 @@ Built the original Return Done product and helped define its product and operati
 engineered this rebuild.
 
 - Portfolio: https://www.gitadisale.com
-- LinkedIn: _add your profile URL here_ <!-- TODO -->
+- LinkedIn: https://www.linkedin.com/in/gita-disale/
 
 ## License
 

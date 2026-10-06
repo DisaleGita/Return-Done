@@ -27,7 +27,8 @@ export const siteConfig = {
     name: "Gita Disale",
     role: "Co-Founder & CTO",
     portfolioUrl: "https://www.gitadisale.com",
-    linkedInUrl: process.env.NEXT_PUBLIC_FOUNDER_LINKEDIN_URL || null,
+    linkedInUrl:
+      process.env.NEXT_PUBLIC_FOUNDER_LINKEDIN_URL || "https://www.linkedin.com/in/gita-disale/",
   },
 } as const;
 

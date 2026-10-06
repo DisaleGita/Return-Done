@@ -221,7 +221,7 @@ function SuccessPage() {
             Please ensure that you are physically present during your chosen pickup slot to allow us to verify the return items accurately.
           </p>
           <p>
-            If you need to cancel or reschedule your pickup, kindly send an email to <a href='mailTo:support@returndone.com'>support@returndone.com</a> at least 2 hours prior to your scheduled pickup slot.
+            If you need to cancel or reschedule your pickup, kindly send an email to <a href='mailTo:support@example.com'>support@example.com</a> at least 2 hours prior to your scheduled pickup slot.
           </p>
         </div>
         <div>
@@ -245,7 +245,7 @@ function SuccessPage() {
             </span> Tip 2
             </h4>
             <div>
-            If you did not provide a return deadline date or upload your return labels in the Return Initiation Form, you can email them to us at <a href='mailTo:support@returndone.com'>support@returndone.com</a> along with your request ID at least 2 hours before the start of your pickup time slot.
+            If you did not provide a return deadline date or upload your return labels in the Return Initiation Form, you can email them to us at <a href='mailTo:support@example.com'>support@example.com</a> along with your request ID at least 2 hours before the start of your pickup time slot.
             </div>
           </div>
           <div className={styles.successPage_tips_item}>

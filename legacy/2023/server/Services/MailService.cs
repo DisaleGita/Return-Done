@@ -36,7 +36,7 @@ namespace SendEmailDotNetCoreWebAPI.Services
             var email = new MimeMessage();
 
             email.From.Add(new MailboxAddress("Return Done", _mailSettings.Mail));
-            email.To.Add(MailboxAddress.Parse("support@returndone.com"));
+            email.To.Add(MailboxAddress.Parse("support@example.com"));
             email.Subject = "New Order Placed - " + customer.Code;
 
             DateTime earliestDate = DateTime.MinValue;
@@ -222,8 +222,8 @@ namespace SendEmailDotNetCoreWebAPI.Services
                  "<p><b>Item Details</b><br>" + _storeDetails + "</p>" +
 
                  "<p>You <b>must be present</b> physically at the time of pickup so that our pickup specialist can verify the items you are requesting to return.</br></p>" +
-                 "<p>If you have not provided a return deadline date or uploaded your return labels through our Return Initiation Form, please send them to us by either emailing support@returndone.com along with your <b>request ID</b> or simply replying to this email. Please ensure that you send all the required information at least 2 hours before the start of your pickup time slot.</p>" +
-                 "<p>If you need to make changes to your chosen pickup slot, we are happy to assist you. To cancel or reschedule your pickup, please send an email to support@returndone.com with your <b>request ID</b> and desired changes.</p>" +
+                 "<p>If you have not provided a return deadline date or uploaded your return labels through our Return Initiation Form, please send them to us by either emailing support@example.com along with your <b>request ID</b> or simply replying to this email. Please ensure that you send all the required information at least 2 hours before the start of your pickup time slot.</p>" +
+                 "<p>If you need to make changes to your chosen pickup slot, we are happy to assist you. To cancel or reschedule your pickup, please send an email to support@example.com with your <b>request ID</b> and desired changes.</p>" +
                  "<p>Please note that you may cancel or reschedule your pickup up to 2 hours before the start of your scheduled pickup slot, and reschedule for any slot on the following day or later. Our team will do its best to accommodate your request and provide you with updated pickup details.</br></p>" +
                  "<p>If you have any questions or concerns, please don't hesitate to contact us. We're always happy to help.</br></p>" +
                  "<p>Best regards,<br>Return Done Team</p>";
@@ -266,7 +266,7 @@ namespace SendEmailDotNetCoreWebAPI.Services
             {
                 var emailTOUS = new MimeMessage();
                 emailTOUS.From.Add(new MailboxAddress("Return Done", _mailSettings.Mail));
-                emailTOUS.To.Add(MailboxAddress.Parse("support@returndone.com"));
+                emailTOUS.To.Add(MailboxAddress.Parse("support@example.com"));
                 emailTOUS.Subject = result;
 
                 var builder2 = new BodyBuilder();

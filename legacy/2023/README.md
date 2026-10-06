@@ -51,7 +51,8 @@ The repository was cleaned before it was made public:
   OAuth client secret (`client_secret.json`) and Azure publish profiles. These
   were removed or redacted, and the credentials should be treated as revoked.
 - **Personal data:** real customers' names, photos and testimonials, plus a
-  phone number. The testimonial component is kept as code with an empty list.
+  phone number. The old support mailbox address, which no longer exists, is
+  replaced with `support@example.com`. The testimonial component is kept as code with an empty list.
 - **Third-party assets of unclear license:** a stock hero photo, retailer logo
   images and animated icons.
 - **Build output:** compiled `bin/` and `obj/` folders, publish zips and CRA

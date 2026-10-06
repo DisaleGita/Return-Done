@@ -48,7 +48,7 @@ function FAQ() {
         },
         {
             label: 'What if I need to change or cancel my pickup? ',
-            content: 'If you need to modify or cancel your pickup, please notify us at least 2 hours before your scheduled pickup slot. You can email us at support@returndone.com with your request, and our team will assist you.',
+            content: 'If you need to modify or cancel your pickup, please notify us at least 2 hours before your scheduled pickup slot. You can email us at support@example.com with your request, and our team will assist you.',
         },
         {
             label: 'What happens if the store refuses to accept the return? ',
@@ -60,7 +60,7 @@ function FAQ() {
         },
         {
             label: 'Is Return Done available in my area?',
-            content: 'We are continually expanding our service to new areas. Currently, Return Done is available in the city of Chicago. You can visit our website or contact our customer support at support@returndone.com for the most up-to-date information.',
+            content: 'We are continually expanding our service to new areas. Currently, Return Done is available in the city of Chicago. You can visit our website or contact our customer support at support@example.com for the most up-to-date information.',
         },
         {
             label: 'Is my personal information and payment secure with Return Done? ',
@@ -68,7 +68,7 @@ function FAQ() {
         },
         {
             label: 'What if I have additional special instructions for the return pickup? ',
-            content: 'If you have any specific instructions or requirements for the return pickup, please email us at support@returndone.com after successfully placing a pickup request. Make sure you include your Request ID in the email. Our team will do their best to accommodate your requests and ensure a smooth pickup experience.',
+            content: 'If you have any specific instructions or requirements for the return pickup, please email us at support@example.com after successfully placing a pickup request. Make sure you include your Request ID in the email. Our team will do their best to accommodate your requests and ensure a smooth pickup experience.',
         },
         {
             label: 'Is there a weight or size limit for the items I can return?',
@@ -76,7 +76,7 @@ function FAQ() {
         },
         {
             label: 'How can I contact Return Done for further assistance or inquiries? ',
-            content: 'For any additional questions, concerns, or inquiries, you can reach out to our customer support team via email at support@returndone.com. Our team is available from 8 AM to 8 PM Monday to Sunday to assist you.',
+            content: 'For any additional questions, concerns, or inquiries, you can reach out to our customer support team via email at support@example.com. Our team is available from 8 AM to 8 PM Monday to Sunday to assist you.',
         }
         ,
     ];

@@ -370,7 +370,7 @@ const StoreDetailsForm: React.FC<StoreDetailsProps> = ({ mode, getStoreData, tog
                                                         </span> Tip
                                                         </h4>
                                                         <div>
-                                                        If you don't have the Return Label or the Return Deadline Date ready with you, you can always email them to us later at support@returndone.com before the pickup time slot.
+                                                        If you don't have the Return Label or the Return Deadline Date ready with you, you can always email them to us later at support@example.com before the pickup time slot.
                                                         </div>
                                                     </div>
                                                 </div>

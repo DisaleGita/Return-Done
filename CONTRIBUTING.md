@@ -12,6 +12,14 @@ npm run dev
 
 No environment variables are required. See `.env.example` for the optional ones.
 
+## Workflow
+
+`main` deploys to the live site, so all changes go through a pull request:
+
+1. Branch from `main` (`fix/…`, `feat/…`, `chore/…`).
+2. Commit, push the branch, and open a pull request.
+3. Check the Vercel preview link on the PR, then merge.
+
 ## Before opening a pull request
 
 ```bash

@@ -27,5 +27,5 @@
     "*.ts",
     "*.mts"
   ],
-  "exclude": ["node_modules", "legacy"]
+  "exclude": ["node_modules"]
 }

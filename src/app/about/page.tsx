@@ -159,10 +159,6 @@ export default function AboutPage() {
               experiments. The 2026 rebuild keeps the original business rules, like two-hour pickup
               windows and Saturday Return Day pricing, and rebuilds everything around them.
             </p>
-            <p className={styles.builtBody}>
-              The original 2023 source is archived in the repository next to the rebuild, so you can
-              see how it changed.
-            </p>
             <Button
               href={siteConfig.repoUrl}
               variant="secondary"

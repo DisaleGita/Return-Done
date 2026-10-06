@@ -22,8 +22,7 @@ Return Done is a consumer service for the most annoying part of online shopping:
 us what you're returning and pick a two-hour window. We collect it from your door, then pack, label and drop it
 off. You follow the return and your refund in one place.
 
-It started as a real startup in Chicago in 2023. This repository is the 2026 rebuild, with the original
-codebase archived alongside it.
+It started as a real startup in Chicago in 2023. This repository is the 2026 rebuild.
 
 ## The idea
 
@@ -64,9 +63,6 @@ automation and AI could make returns easier still. The goals:
 - Rebuild the rest properly: a typed domain model, validated APIs, a real design system, accessibility and
   tests.
 - Add one thoughtful AI feature, without turning the product into an AI company.
-
-The original 2023 source is preserved in [`legacy/2023/`](legacy/2023/), cleaned of credentials and personal
-data, so the before and after are both visible.
 
 ## Product features
 
@@ -320,7 +316,7 @@ Things to try:
 - **Tested with:** a small number of student customers around the Illinois Tech campus, found through posters
 - **Ran:** real doorstep pickups, with items checked at the door, packed, labeled and returned
 - **Original stack:** Create React App + TypeScript frontend, ASP.NET Core 6 email API on Azure, Stripe
-  Payment Links (see [`legacy/2023/README.md`](legacy/2023/README.md))
+  Payment Links
 
 No funding, partnerships or retailer relationships are implied. Retailer names appear for identification only.
 

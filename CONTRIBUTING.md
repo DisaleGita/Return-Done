@@ -31,8 +31,3 @@ CI runs the same command.
   reduced-motion-safe animation.
 - **Product copy stays honest.** Demo behaviour is labelled as demo. Don't add claims about customers,
   partnerships or traction.
-
-## `legacy/2023`
-
-This folder is a read-only historical archive of the original codebase. Please don't modify it, except to
-remove anything sensitive.

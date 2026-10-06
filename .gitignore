@@ -1,0 +1,54 @@
+# dependencies
+node_modules/
+
+# next.js / build output
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+client_secret*.json
+
+# deployment
+.vercel
+
+# os / editor
+.DS_Store
+.vs/
+.idea/
+*.log
+npm-debug.log*
+
+# ---------------------------------------------------------------------------
+# legacy/2023 — the original codebase is archived for reference. These paths
+# contained credentials, compiled output, deploy profiles, third-party assets
+# of unknown license, or real customers' names and photos. They must never be
+# committed to the public repository.
+# ---------------------------------------------------------------------------
+legacy/2023/server/bin/
+legacy/2023/server/obj/
+legacy/2023/server/Properties/PublishProfiles/
+legacy/2023/server/Properties/ServiceDependencies/
+legacy/2023/server/Properties/serviceDependencies.json
+legacy/2023/server/package.json
+legacy/2023/server/package-lock.json
+legacy/2023/client/build/
+legacy/2023/client/package-lock.json
+legacy/2023/client/sample/
+legacy/2023/client/src/assets/testimonials/
+legacy/2023/client/src/assets/brand_logos/
+legacy/2023/client/src/assets/gifs/
+legacy/2023/client/src/assets/docs/*.pdf
+legacy/2023/client/src/assets/fonts/
+legacy/2023/client/src/assets/reBanner*.png
+legacy/2023/client/src/assets/pricing_section.png
+legacy/2023/client/src/assets/Image*.png
+legacy/2023/client/src/assets/discount.png
+legacy/2023/client/src/assets/padlock.png

@@ -1,0 +1,127 @@
+@import '../../utils/variables.module.scss';
+.successPage{
+    padding: 2% 2%;
+    margin: 0 4%;
+    text-align: left;
+    a{
+        color: $primaryColor;
+    }
+    h3{
+        font-size: 2rem;
+        background: -webkit-linear-gradient(left, #0d9692 25%, #203534);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    &_table_row{
+        display: flex;
+        width: 100%;
+        padding: 2% 2%;
+        border-radius: 25px;
+        background: $tertiaryColor;
+        margin: 2% 0;
+
+        @include for-tab-only-potrait{
+            flex-direction: column;
+        }
+        @include for-phone-only{
+            flex-direction: column;
+        }
+    }
+
+    &_table_left,&_table_right{
+        flex-basis: 50%;
+    }
+
+    &_row{
+        display: flex;
+
+        p:first-child{
+            padding-right: 2%;
+            @include for-tab-only-potrait{
+                flex-basis: 50%;
+            }
+            @include for-phone-only{
+                flex-basis: 50%;
+            }
+        }
+    }
+
+    &_address{
+        flex-direction: column;
+
+        .rowName{
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    }
+
+    &_tips{
+        display: flex;
+        color: $white;
+        @include for-tab-only-potrait{
+            flex-direction: column;
+        }
+        @include for-phone-only{
+            flex-direction: column;
+        }
+        a{color: $white;}
+        &_item{
+            border-radius: 25px;
+            flex-basis: 25%;
+            padding: 2%;
+            margin: 0 2% 0 0;
+            background: $primaryColor;
+
+            @include for-tab-only-potrait{
+                margin: 0 2% 4% 0;
+                padding: 4%;
+            }
+            @include for-phone-only{
+                margin: 0 2% 4% 0;
+                padding: 4%;
+            }
+        }
+        img{
+            width: 30px;
+            height: 30px;
+            margin-top: -12px;
+        }
+    }
+    &_link_parent{
+        display: flex;
+    }
+    &_link_btn {
+        margin-top: 5px;
+        @extend .secondaryButton;
+        // width: 150px;
+        // height: 50px;
+        display: block;
+        padding: 5px 2%;
+        margin: 1% 0 2%;
+        font-size: 1.15rem;
+        width: auto;
+        color: $secondaryColor;
+        text-decoration: none;
+        font-weight: bold;
+        height: 45px;
+
+        @include for-tab-only-potrait{
+            font-size: 0.85rem;
+            height: 35px;
+        }
+        @include for-phone-only{
+            font-size: 0.85rem;
+            height: 35px;
+        }
+    
+            &:visited,
+            &:hover {
+                color: $secondaryColor  !important;
+            }
+    
+        &_link {
+            
+        }
+    }
+}

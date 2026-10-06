@@ -1,0 +1,61 @@
+@import '../../utils/variables.module.scss';
+// .swiper-slide-active{
+//     zoom: 1.5;
+// }
+
+.brand_carousel{
+    padding: 6% 8% 2% 8%;
+    background: $white;
+    @include for-phone-only{
+        padding: 12% 8%;
+    }
+    h3{
+        // font-weight: bold;
+          font-size: 3rem;
+          background: -webkit-linear-gradient(left, #0d9692 25%, #203534);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+
+        @include for-tab-only{
+            font-size: 3rem;
+        }
+
+        @include for-phone-only{
+            font-size: 2rem;
+         }
+
+          &:last-of-type{
+            font-size: 2.25rem;
+            margin-top: 1rem;
+            margin-bottom: 4%;
+
+            @include for-tab-only{
+                font-size: 2rem;
+            }
+
+            @include for-phone-only{
+                font-size: 1.5rem;
+             }
+          }
+    }
+    // .swiper-slide-active{
+    //     margin-right: 0 !important;
+    // }
+    // .swiper-slide{
+    //     margin-right: 0 !important;
+    //     margin-top: auto !important;
+    //     margin-bottom: auto !important;
+    // }
+}
+
+.hrRule{
+    width: 45%;
+    margin: 0 auto;
+    height: 4px;
+    margin-top: 10%;
+    background: -webkit-linear-gradient(left, #0d9692 25%, #203534);
+    @include for-phone-only{
+       width: 70%;
+    }
+    // border: 2px solid red;
+ }

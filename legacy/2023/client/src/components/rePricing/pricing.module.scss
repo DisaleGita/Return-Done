@@ -1,0 +1,88 @@
+@import '../../utils/variables.module.scss';
+
+.rePricing{
+    padding: 6% 2% 4% 2%;
+    background: $tertiaryColor;
+    @include for-tab-only{
+      padding: 6% 8% 4% 8%;
+    }
+    @include for-phone-only{
+      padding: 6% 8% 4% 8%;
+    }
+    img{
+        border-radius: 15px;
+        max-width: 100%;
+    }
+    h3{
+        // font-weight: bold;
+          font-size: 3rem;
+          margin-bottom: 0;
+          background: -webkit-linear-gradient(left, #0d9692 25%, #203534);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+
+          @include for-phone-only{
+            font-size: 2rem;
+          }
+    }
+}
+
+.pricing {
+    background: $white;
+    padding: 8% 0;
+    @include for-phone-only{
+       padding: 12% 0;
+    }
+    h3{
+       // font-size: 1.75rem;
+       // font-weight: normal;
+       font-size: 3.75rem;
+       margin: 0 auto 2rem;
+       width: 85%;
+       background: -webkit-linear-gradient(left, #0d9692 25%, #203534);
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+ 
+       @include for-tab-only{
+          font-size: 3rem;
+       }
+ 
+       @include for-phone-only{
+          font-size: 2rem;
+       }
+ 
+       &:last-of-type{
+          font-size: 2.25rem;
+          margin: 0rem auto;
+          @include for-tab-only{
+             font-size: 2rem;
+          }
+ 
+          @include for-phone-only{
+             font-size: 1.5rem;
+          }
+       }
+    }
+    
+ }
+ .reBanner_btn{
+    @extend .secondaryButton;
+    margin-top: 3rem;
+    width: 200px;
+    height: 75px;
+    font-size: 1.5rem;
+
+    @include for-phone-only{
+      width: 150px;
+      height: 50px;
+      font-size: 1rem;
+    }
+    &_link,a{
+        color: $secondaryColor;
+        text-decoration: none;
+        font-weight: bold;
+        &:visited,&:hover{
+            color: $secondaryColor !important;
+        }
+    }
+ }

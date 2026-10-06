@@ -1,0 +1,43 @@
+@import '../../utils/variables.module.scss';
+
+.re_Benefits{
+ padding: 6% 2%;
+ background: $tertiaryColor;
+   @include for-phone-only{
+      padding: 12% 8%;
+   }
+   h3{
+      font-size: 3rem;
+      @include for-tab-only{
+         font-size: 2.25rem;
+      }
+      margin-bottom: 4%;
+      // font-weight: bold;
+      background: -webkit-linear-gradient(left, #0d9692 25%, #203534);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+   }
+ &_cards{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+ }
+
+}
+
+.reBanner_btn{
+   @extend .secondaryButton;
+   margin-top: 1rem;
+   width: 200px;
+   height: 75px;
+   font-size: 1.5rem;
+   &_link{
+       color: $secondaryColor;
+       text-decoration: none;
+       font-weight: bold;
+       &:visited,&:hover{
+           color: $secondaryColor !important;
+       }
+   }
+}

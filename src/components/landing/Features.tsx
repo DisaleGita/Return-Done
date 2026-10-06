@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   ArrowRight,
   Bell,
@@ -188,9 +187,7 @@ export function Retailers() {
           {names.map((name) => (
             <li key={name}>{name}</li>
           ))}
-          <li className={styles.andMore}>
-            <Link href="/schedule">and more</Link>
-          </li>
+          <li className={styles.andMore}>and more</li>
         </ul>
         <p className={styles.retailersNote}>
           Retailer names are shown for identification only. Return Done isn&apos;t affiliated with

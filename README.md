@@ -197,8 +197,8 @@ and operations notification would go. That is exactly what the 2023 .NET API did
 Requirements: Node.js 20.9 or newer (developed on Node 24) and npm.
 
 ```bash
-git clone https://github.com/gitadisale/return-done.git   # TODO: update if the repo URL differs
-cd return-done
+git clone https://github.com/DisaleGita/Return-Done.git
+cd Return-Done
 npm install
 npm run dev
 ```

@@ -10,8 +10,7 @@ export const siteConfig = {
     "Schedule a doorstep pickup and let Return Done handle the annoying part of online returns.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   foundedIn: "Chicago, 2023",
-  // TODO: confirm once the public repository is created.
-  repoUrl: process.env.NEXT_PUBLIC_REPO_URL || "https://github.com/gitadisale/return-done",
+  repoUrl: process.env.NEXT_PUBLIC_REPO_URL || "https://github.com/DisaleGita/Return-Done",
   founder: {
     name: "Gita Disale",
     role: "Co-Founder & CTO",

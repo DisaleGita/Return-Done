@@ -223,6 +223,9 @@ export default function AboutPage() {
                   LinkedIn <ArrowUpRight aria-hidden="true" />
                 </a>
               )}
+              <a href={founder.githubUrl} target="_blank" rel="noreferrer">
+                GitHub <ArrowUpRight aria-hidden="true" />
+              </a>
             </p>
           </div>
         </div>

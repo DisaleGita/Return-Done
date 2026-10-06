@@ -338,6 +338,7 @@ engineered this rebuild.
 
 - Portfolio: https://www.gitadisale.com
 - LinkedIn: https://www.linkedin.com/in/gita-disale/
+- GitHub: https://github.com/DisaleGita
 
 ## License
 

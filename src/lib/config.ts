@@ -29,6 +29,7 @@ export const siteConfig = {
     portfolioUrl: "https://www.gitadisale.com",
     linkedInUrl:
       process.env.NEXT_PUBLIC_FOUNDER_LINKEDIN_URL || "https://www.linkedin.com/in/gita-disale/",
+    githubUrl: "https://github.com/DisaleGita",
   },
 } as const;
 

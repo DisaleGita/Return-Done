@@ -267,13 +267,15 @@ development.
   (Mailinator, 10 Minute Mail, YOPmail and others) and domains with no mail or DNS records get "Please
   use a real email address", and the customer can correct it. If the DNS lookup itself fails, the address
   is allowed, so real customers are never blocked by a network hiccup.
-- **A cap on how many people get email.** Set `EMAIL_MAX_RECIPIENTS=50` and, after 50 different people,
-  bookings still work but no more email is sent; the confirmation page says so. Each address gets at most
-  `EMAIL_MAX_PER_RECIPIENT` emails (default 3).
+- **A cap on how many people get email.** By default, once 50 different people have been emailed,
+  bookings still work but no more email is sent, and the confirmation page says so. Each address gets
+  at most 3 emails. Change these in `src/lib/config.ts` (`emailLimits`), or with `EMAIL_MAX_RECIPIENTS`
+  and `EMAIL_MAX_PER_RECIPIENT` (`0` turns the cap off).
 - **Counting needs Upstash Redis** (free), because Vercel functions don't share memory. In the Vercel
-  project, open **Storage → Create Database → Upstash for Redis**, connect it to the project, and Vercel
-  adds `KV_REST_API_URL` and `KV_REST_API_TOKEN` for you. Only SHA-256 hashes of addresses are stored. If
-  a cap is set but Redis isn't connected, email pauses rather than going over the limit.
+  project, open **Storage → Upstash for Redis**, choose the free plan (set replication to **None**) and
+  connect it to the project. Vercel adds the connection variables for you, whatever prefix you pick. Only
+  SHA-256 hashes of addresses are stored. Without Redis on Vercel, email pauses rather than risk going over
+  the limit. Locally, an in-memory counter is used.
 
 ## Deployment
 

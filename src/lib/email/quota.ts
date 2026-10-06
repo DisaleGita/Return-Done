@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { emailLimits } from "../config";
 
 /**
  * Caps how many people the live demo will email, and how many emails any one
@@ -34,14 +35,19 @@ export interface QuotaLimits {
   maxPerRecipient: number;
 }
 
+/** Limits from config.ts, overridable by env. EMAIL_MAX_RECIPIENTS=0 means no cap. */
 export function readLimits(env: Env = process.env): QuotaLimits | null {
-  const maxRecipients = Number(env.EMAIL_MAX_RECIPIENTS);
-  if (!Number.isFinite(maxRecipients) || maxRecipients <= 0) return null;
-  const perRecipient = Number(env.EMAIL_MAX_PER_RECIPIENT);
+  const number = (value: string | undefined) =>
+    value === undefined || value.trim() === "" ? undefined : Number(value);
+
+  const maxRecipients = number(env.EMAIL_MAX_RECIPIENTS) ?? emailLimits.maxRecipients;
+  if (maxRecipients === 0) return null;
+  const perRecipient = number(env.EMAIL_MAX_PER_RECIPIENT) ?? emailLimits.maxPerRecipient;
+  const valid = (n: number, fallback: number) =>
+    Number.isFinite(n) && n > 0 ? Math.floor(n) : fallback;
   return {
-    maxRecipients: Math.floor(maxRecipients),
-    maxPerRecipient:
-      Number.isFinite(perRecipient) && perRecipient > 0 ? Math.floor(perRecipient) : 3,
+    maxRecipients: valid(maxRecipients, emailLimits.maxRecipients),
+    maxPerRecipient: valid(perRecipient, emailLimits.maxPerRecipient),
   };
 }
 
@@ -112,10 +118,28 @@ export function createMemoryStore(): QuotaStore {
  * Upstash Redis over its REST API, so no extra dependency is needed. Accepts
  * the variable names set by Vercel's Upstash integration or by Upstash itself.
  */
+export function findUpstashCredentials(
+  env: Env = process.env,
+): { url: string; token: string } | null {
+  // Vercel's integration names them <PREFIX>_REST_API_URL / _TOKEN, with a
+  // prefix chosen at install time (KV by default); Upstash uses UPSTASH_REDIS_.
+  const preferred = ["KV_REST_API_URL", "UPSTASH_REDIS_REST_URL"];
+  const candidates = [
+    ...preferred,
+    ...Object.keys(env).filter((key) => key.endsWith("REST_API_URL") && !preferred.includes(key)),
+  ];
+  for (const urlKey of candidates) {
+    const url = env[urlKey];
+    const token = env[urlKey.replace(/URL$/, "TOKEN")];
+    if (url && token) return { url, token };
+  }
+  return null;
+}
+
 export function createUpstashStore(env: Env = process.env): QuotaStore | null {
-  const url = env.KV_REST_API_URL || env.UPSTASH_REDIS_REST_URL;
-  const token = env.KV_REST_API_TOKEN || env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return null;
+  const credentials = findUpstashCredentials(env);
+  if (!credentials) return null;
+  const { url, token } = credentials;
 
   async function command(...args: (string | number)[]): Promise<unknown> {
     const response = await fetch(url!, {

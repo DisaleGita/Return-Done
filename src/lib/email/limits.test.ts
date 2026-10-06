@@ -120,10 +120,40 @@ describe("claimEmailSlot", () => {
   });
 });
 
+describe("findUpstashCredentials", () => {
+  it("finds the Redis connection whatever prefix Vercel gave it", async () => {
+    const { findUpstashCredentials } = await import("./quota");
+    expect(
+      findUpstashCredentials({ KV_REST_API_URL: "https://a", KV_REST_API_TOKEN: "t" }),
+    ).toEqual({
+      url: "https://a",
+      token: "t",
+    });
+    expect(
+      findUpstashCredentials({ STORAGE_REST_API_URL: "https://b", STORAGE_REST_API_TOKEN: "u" }),
+    ).toEqual({ url: "https://b", token: "u" });
+    expect(
+      findUpstashCredentials({
+        UPSTASH_REDIS_REST_URL: "https://c",
+        UPSTASH_REDIS_REST_TOKEN: "v",
+      }),
+    ).toEqual({ url: "https://c", token: "v" });
+    expect(findUpstashCredentials({ STORAGE_REST_API_URL: "https://b" })).toBeNull();
+  });
+});
+
 describe("readLimits", () => {
-  it("is off unless EMAIL_MAX_RECIPIENTS is a positive number", () => {
-    expect(readLimits({})).toBeNull();
-    expect(readLimits({ EMAIL_MAX_RECIPIENTS: "abc" })).toBeNull();
+  it("defaults to 50 people and 3 emails each, and EMAIL_MAX_RECIPIENTS=0 turns it off", () => {
+    expect(readLimits({})).toEqual({ maxRecipients: 50, maxPerRecipient: 3 });
+    expect(readLimits({ EMAIL_MAX_RECIPIENTS: "" })).toEqual({
+      maxRecipients: 50,
+      maxPerRecipient: 3,
+    });
+    expect(readLimits({ EMAIL_MAX_RECIPIENTS: "abc" })).toEqual({
+      maxRecipients: 50,
+      maxPerRecipient: 3,
+    });
+    expect(readLimits({ EMAIL_MAX_RECIPIENTS: "0" })).toBeNull();
     expect(readLimits({ EMAIL_MAX_RECIPIENTS: "50" })).toEqual({
       maxRecipients: 50,
       maxPerRecipient: 3,
@@ -159,6 +189,7 @@ describe("sendConfirmationEmail with limits", () => {
     vi.stubEnv("SMTP_PASS", "x");
     vi.stubEnv("KV_REST_API_URL", "");
     vi.stubEnv("UPSTASH_REDIS_REST_URL", "");
+    vi.stubEnv("STORAGE_REST_API_URL", "");
     for (const [key, value] of Object.entries(extra)) vi.stubEnv(key, value);
   }
 

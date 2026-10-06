@@ -66,6 +66,14 @@ export const schedulingConfig = {
 
 export type PickupWindowId = (typeof schedulingConfig.windows)[number]["id"];
 
+/** Caps on real confirmation emails from the public demo. Override with env vars. */
+export const emailLimits = {
+  /** Different people who can receive email. EMAIL_MAX_RECIPIENTS=0 turns the cap off. */
+  maxRecipients: 50,
+  /** Emails any one address can receive. */
+  maxPerRecipient: 3,
+} as const;
+
 export const assistantConfig = {
   maxInputChars: 8000,
   defaultModel: "claude-opus-5",

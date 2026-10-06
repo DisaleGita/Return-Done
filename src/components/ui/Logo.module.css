@@ -1,0 +1,26 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-950);
+}
+
+.wordmark {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.done {
+  margin-left: 0.22em;
+  color: var(--brand-600);
+}
+
+.inverse {
+  color: white;
+  --logo-bg: var(--brand-500);
+}
+
+.inverse .done {
+  color: var(--brand-300);
+}

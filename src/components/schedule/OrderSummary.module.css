@@ -1,0 +1,123 @@
+.summary {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 960px) {
+  .summary {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-6));
+  }
+}
+
+.title {
+  font-size: var(--text-base);
+  letter-spacing: -0.01em;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 40px;
+}
+
+.rowText {
+  min-width: 0;
+}
+
+.primary {
+  font-weight: 600;
+}
+
+.secondary {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-3);
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--border);
+}
+
+.facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.facts dt {
+  color: var(--text-tertiary);
+}
+
+.facts dd {
+  font-weight: 600;
+  text-align: right;
+}
+
+.lines {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.lines li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  color: var(--text-secondary);
+}
+
+.lines li[data-discount] {
+  color: var(--amber-700);
+  font-weight: 500;
+  animation: pop-in var(--duration-slow) var(--ease-out);
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.lines .total {
+  padding-top: var(--space-3);
+  margin-top: var(--space-1);
+  border-top: 1px dashed var(--border-strong);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--ink-950);
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.note svg {
+  width: 14px;
+  height: 14px;
+  color: var(--brand-600);
+}

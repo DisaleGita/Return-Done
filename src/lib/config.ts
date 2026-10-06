@@ -1,0 +1,61 @@
+/**
+ * Central product configuration. Prices, pickup windows and site links live
+ * here so they can change without hunting through components.
+ */
+
+export const siteConfig = {
+  name: "Return Done",
+  tagline: "The easiest way to return anything.",
+  description:
+    "Schedule a doorstep pickup and let Return Done handle the annoying part of online returns.",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  foundedIn: "Chicago, 2023",
+  // TODO: confirm once the public repository is created.
+  repoUrl: process.env.NEXT_PUBLIC_REPO_URL || "https://github.com/gitadisale/return-done",
+  founder: {
+    name: "Gita Disale",
+    role: "Co-Founder & CTO",
+    portfolioUrl: "https://www.gitadisale.com",
+    linkedInUrl: process.env.NEXT_PUBLIC_FOUNDER_LINKEDIN_URL || null,
+  },
+} as const;
+
+export const pricingConfig = {
+  currency: "USD",
+  /** One item picked up from your door. */
+  singleItem: 7.99,
+  /** Two or more items from the same retailer, one pickup. */
+  multiItem: 12.99,
+  /**
+   * "Return Day" carried over from the 2023 service: Saturday routes were
+   * batched, so Saturday pickups were cheaper.
+   */
+  returnDay: {
+    weekday: 6, // Saturday (Date#getDay)
+    discount: 2,
+  },
+  maxItemsPerPickup: 10,
+} as const;
+
+export const schedulingConfig = {
+  /** How many days ahead customers can book, including today. */
+  bookingHorizonDays: 14,
+  /** A window can't be booked once it starts within this many minutes. */
+  leadTimeMinutes: 60,
+  /** The original 2023 two-hour pickup windows, 8 AM – 8 PM. */
+  windows: [
+    { id: "08-10", startHour: 8, endHour: 10 },
+    { id: "10-12", startHour: 10, endHour: 12 },
+    { id: "12-14", startHour: 12, endHour: 14 },
+    { id: "14-16", startHour: 14, endHour: 16 },
+    { id: "16-18", startHour: 16, endHour: 18 },
+    { id: "18-20", startHour: 18, endHour: 20 },
+  ],
+} as const;
+
+export type PickupWindowId = (typeof schedulingConfig.windows)[number]["id"];
+
+export const assistantConfig = {
+  maxInputChars: 8000,
+  defaultModel: "claude-opus-5",
+} as const;

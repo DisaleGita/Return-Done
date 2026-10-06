@@ -1,0 +1,171 @@
+.field,
+.fieldset {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+}
+
+.label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink-800);
+}
+
+.optional {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-tertiary);
+}
+
+.control {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1rem; /* 16px avoids iOS zoom on focus */
+  line-height: 1.4;
+  box-shadow: var(--shadow-xs);
+  transition:
+    border-color var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out);
+  appearance: none;
+}
+
+.control::placeholder {
+  color: var(--ink-400);
+}
+
+.control:hover {
+  border-color: var(--ink-400);
+}
+
+.control:focus {
+  outline: none;
+  border-color: var(--brand-500);
+  box-shadow: var(--focus-ring);
+}
+
+.field[data-invalid] .control {
+  border-color: var(--red-600);
+}
+
+.field[data-invalid] .control:focus {
+  box-shadow: 0 0 0 3px rgb(197 42 42 / 0.2);
+}
+
+.select {
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%23687a7b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.affix {
+  position: relative;
+}
+
+.prefix {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+.withPrefix {
+  padding-left: 30px;
+}
+
+.hint {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--red-600);
+  animation: error-in var(--duration) var(--ease-out);
+}
+
+.error svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+}
+
+@keyframes error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+
+/* ------------------------------------------------------------ segmented */
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  gap: 3px;
+  border-radius: var(--radius-md);
+  background: var(--ink-100);
+  width: fit-content;
+}
+
+.segment {
+  position: relative;
+}
+
+.segment input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.segment span {
+  display: block;
+  padding: 8px 16px;
+  border-radius: 9px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink-600);
+  transition:
+    background-color var(--duration) var(--ease-out),
+    color var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out);
+}
+
+.segment:hover span {
+  color: var(--ink-900);
+}
+
+.segment input:checked + span {
+  background: var(--surface);
+  color: var(--brand-700);
+  box-shadow: var(--shadow-sm);
+}
+
+.segment input:focus-visible + span {
+  box-shadow: var(--focus-ring);
+}

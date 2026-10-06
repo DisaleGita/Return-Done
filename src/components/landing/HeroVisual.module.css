@@ -1,0 +1,267 @@
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 460px;
+  padding: var(--space-8) var(--space-4);
+}
+
+.glow {
+  position: absolute;
+  inset: 8% 6%;
+  border-radius: 40px;
+  background:
+    radial-gradient(60% 60% at 30% 30%, rgb(13 150 146 / 0.18), transparent 70%),
+    radial-gradient(50% 50% at 75% 70%, rgb(36 89 200 / 0.1), transparent 70%);
+  filter: blur(8px);
+}
+
+.phone {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  width: min(320px, 100%);
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background: var(--bg);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 8px rgb(255 255 255 / 0.7);
+  animation: float-in 0.8s var(--ease-out) both;
+}
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+.phoneTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 4px 4px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--brand-100);
+  color: var(--brand-700);
+  font-size: var(--text-xs);
+}
+
+.card {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cardHead > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.mono {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #fdecef;
+  color: #a8274a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.monoBlue {
+  background: #eef2ff;
+  color: #3b4bb3;
+}
+
+.muted {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  line-height: 1.3;
+}
+
+.strong {
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--blue-50);
+  color: var(--blue-600);
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badgeBrand {
+  background: var(--brand-50);
+  color: var(--brand-700);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0;
+  list-style: none;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+.steps li {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: calc(50% + 11px);
+  right: calc(-50% + 11px);
+  height: 2px;
+  background: var(--ink-200);
+}
+
+.steps li[data-state="done"]::after {
+  background: var(--brand-400);
+}
+
+.steps li[data-state="done"],
+.steps li[data-state="current"] {
+  color: var(--ink-800);
+}
+
+.dot {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--ink-300);
+  background: white;
+  color: white;
+}
+
+.dot svg {
+  width: 10px;
+  height: 10px;
+}
+
+.steps li[data-state="done"] .dot {
+  border-color: var(--brand-600);
+  background: var(--brand-600);
+}
+
+.steps li[data-state="current"] .dot {
+  border-color: var(--brand-600);
+  box-shadow: 0 0 0 3px var(--brand-100);
+}
+
+.pickupLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-700);
+}
+
+.pickupLine svg {
+  width: 14px;
+  height: 14px;
+  color: var(--brand-600);
+}
+
+.float {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  animation: float-in 0.8s var(--ease-out) both;
+}
+
+.refund {
+  right: 0;
+  bottom: 16%;
+  animation-delay: 0.25s;
+}
+
+.deadline {
+  display: block;
+  left: 0;
+  bottom: 9%;
+  animation-delay: 0.4s;
+}
+
+.refundIcon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--green-50);
+  color: var(--green-600);
+}
+
+.refundIcon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.amount {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green-600);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 520px) {
+  .stage {
+    min-height: 420px;
+    padding-inline: 0;
+  }
+
+  .refund {
+    right: -4px;
+    bottom: 14%;
+  }
+
+  .deadline {
+    left: -4px;
+    bottom: 2%;
+  }
+}

@@ -1,0 +1,82 @@
+.wizard {
+  padding-top: var(--space-6);
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: var(--space-10);
+  }
+}
+
+.form {
+  min-width: 0;
+}
+
+.stepBody {
+  animation: step-in var(--duration-slow) var(--ease-out);
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
+
+.prefillNote {
+  margin-bottom: var(--space-6);
+}
+
+.submitError {
+  margin-top: var(--space-6);
+}
+
+/* Sticky action bar on mobile, inline on larger screens. */
+.actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: var(--space-8) calc(var(--space-4) * -1) 0;
+  padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom));
+  background: rgb(251 252 252 / 0.94);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+}
+
+.actionsRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.mobileTotal {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 640px) {
+  .actions {
+    position: static;
+    margin-inline: 0;
+    padding-inline: 0;
+    background: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (min-width: 960px) {
+  .mobileTotal {
+    display: none;
+  }
+}

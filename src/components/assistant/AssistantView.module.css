@@ -1,0 +1,236 @@
+.page {
+  padding-top: var(--space-10);
+}
+
+.header {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.eyebrowIcon {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .eyebrowIcon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+    color: white;
+    box-shadow: var(--shadow-md);
+  }
+
+  .eyebrowIcon svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.title {
+  font-size: var(--text-4xl);
+  letter-spacing: -0.035em;
+}
+
+.lede {
+  max-width: 62ch;
+  margin-top: var(--space-2);
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  }
+}
+
+.inputCard {
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+
+.label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 260px;
+  padding: var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  resize: vertical;
+  transition:
+    border-color var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out),
+    background-color var(--duration) var(--ease-out);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--brand-500);
+  background: var(--surface);
+  box-shadow: var(--focus-ring);
+}
+
+.inputFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.help {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.samples {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.samplesLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink-800);
+}
+
+.samplesLabel svg {
+  width: 16px;
+  height: 16px;
+  color: var(--text-tertiary);
+}
+
+.sampleButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.sample {
+  height: 36px;
+  padding-inline: 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink-800);
+  transition:
+    border-color var(--duration) var(--ease-out),
+    background-color var(--duration) var(--ease-out),
+    color var(--duration) var(--ease-out);
+}
+
+.sample:hover {
+  border-color: var(--brand-400);
+  background: var(--brand-50);
+  color: var(--brand-800);
+}
+
+.samplesNote {
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.output {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.idle {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+}
+
+.idle svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.loadingCard {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.loadingGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+  margin-top: var(--space-4);
+}
+
+.resultWrap:focus {
+  outline: none;
+}
+
+.howItWorks {
+  max-width: 72ch;
+  margin-top: var(--space-12);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border);
+}
+
+.howItWorks h2 {
+  font-size: var(--text-base);
+}
+
+.howItWorks p {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.howItWorks code {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--ink-100);
+  font-size: 0.8125rem;
+}

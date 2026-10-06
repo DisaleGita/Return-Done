@@ -10,8 +10,7 @@
 </p>
 
 <p align="center">
-  <!-- TODO: replace with the deployed URL -->
-  <a href="https://return-done.example.com"><strong>Live demo</strong></a> ·
+  <a href="https://return-done.vercel.app"><strong>Live demo</strong></a> ·
   <a href="#the-story">The story</a> ·
   <a href="#architecture">Architecture</a> ·
   <a href="#getting-started">Run it locally</a>
@@ -221,17 +220,17 @@ Open http://localhost:3000. No environment variables are needed.
 
 All optional. Copy `.env.example` to `.env.local` to set them.
 
-| Variable                                              | Purpose                                                                                                    |
-| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`                                | Canonical URL for metadata, Open Graph tags and the sitemap                                                |
-| `ANTHROPIC_API_KEY`                                   | Enables Claude for the Smart Return Assistant. Server-only; never exposed to the browser                   |
-| `ANTHROPIC_MODEL`                                     | Overrides the assistant's model (default `claude-opus-5`)                                                  |
-| `EMAIL_MODE`                                          | Optional override: `off`, `smtp` or `test` (fake Ethereal inbox). By default, email sends once SMTP is set |
-| `EMAIL_FROM`                                          | Sender shown on confirmation emails                                                                        |
-| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | SMTP server for real emails, e.g. Gmail: `smtp.gmail.com`, port `465`, your address, an app password       |
-| `EMAIL_ALLOWED_RECIPIENTS`                            | Comma-separated addresses or `@domains` allowed to receive real email. Set this on public deployments      |
-| `NEXT_PUBLIC_REPO_URL`                                | GitHub link used in the footer and About page                                                              |
-| `NEXT_PUBLIC_FOUNDER_LINKEDIN_URL`                    | Shows a LinkedIn link on the About page when set                                                           |
+| Variable                                              | Purpose                                                                                                       |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`                                | Public URL for links in emails, metadata and the sitemap. Optional on Vercel, which provides it automatically |
+| `ANTHROPIC_API_KEY`                                   | Enables Claude for the Smart Return Assistant. Server-only; never exposed to the browser                      |
+| `ANTHROPIC_MODEL`                                     | Overrides the assistant's model (default `claude-opus-5`)                                                     |
+| `EMAIL_MODE`                                          | Optional override: `off`, `smtp` or `test` (fake Ethereal inbox). By default, email sends once SMTP is set    |
+| `EMAIL_FROM`                                          | Sender shown on confirmation emails                                                                           |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | SMTP server for real emails, e.g. Gmail: `smtp.gmail.com`, port `465`, your address, an app password          |
+| `EMAIL_ALLOWED_RECIPIENTS`                            | Comma-separated addresses or `@domains` allowed to receive real email. Set this on public deployments         |
+| `NEXT_PUBLIC_REPO_URL`                                | GitHub link used in the footer and About page                                                                 |
+| `NEXT_PUBLIC_FOUNDER_LINKEDIN_URL`                    | Shows a LinkedIn link on the About page when set                                                              |
 
 ### Confirmation emails
 
@@ -267,7 +266,7 @@ The app is a standard Next.js project, so **Vercel** is the simplest host:
 1. Push the repository to GitHub.
 2. In Vercel, choose **Add New → Project** and import the repository. The framework preset is detected
    automatically; no build settings need changing.
-3. Optionally add the environment variables above, at minimum `NEXT_PUBLIC_SITE_URL`.
+3. Add the SMTP variables above if you want confirmation emails to send.
 4. Deploy. Add a custom domain under **Settings → Domains** if you have one.
 
 It isn't a static site, because two API routes run server-side, so GitHub Pages isn't a fit. Any Node host
@@ -275,7 +274,7 @@ that runs `npm run build && npm start` (Netlify, Render, Fly.io, a container) wo
 
 ## Demo
 
-**Live:** https://return-done.example.com <!-- TODO: replace with the deployed URL -->
+**Live:** https://return-done.vercel.app
 
 Things to try:
 

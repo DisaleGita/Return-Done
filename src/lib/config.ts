@@ -3,12 +3,24 @@
  * here so they can change without hunting through components.
  */
 
+/**
+ * Public URL of the site. Vercel provides the production domain
+ * automatically, so NEXT_PUBLIC_SITE_URL is only needed to override it.
+ */
+function resolveSiteUrl(): string {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  return "http://localhost:3000";
+}
+
 export const siteConfig = {
   name: "Return Done",
   tagline: "The easiest way to return anything.",
   description:
     "Schedule a doorstep pickup and let Return Done handle the annoying part of online returns.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  url: resolveSiteUrl(),
   foundedIn: "Chicago, 2023",
   repoUrl: process.env.NEXT_PUBLIC_REPO_URL || "https://github.com/DisaleGita/Return-Done",
   founder: {

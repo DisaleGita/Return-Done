@@ -143,7 +143,7 @@ src/
     ├── return-draft.ts       Wizard form state → validated API payload
     ├── create-return.ts      Builds a new return record
     ├── returns-store.ts      Demo persistence (localStorage + useSyncExternalStore)
-    ├── email/                Confirmation email template, sender, allow-list
+    ├── email/                Confirmation email, sender, fake-address check, send limits
     ├── demo-data.ts          Seeded returns relative to today
     └── assistant/            Rule-based extractor, Claude provider, summaries
 ```
@@ -229,6 +229,8 @@ All optional. Copy `.env.example` to `.env.local` to set them.
 | `EMAIL_FROM`                                          | Sender shown on confirmation emails                                                                           |
 | `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | SMTP server for real emails, e.g. Gmail: `smtp.gmail.com`, port `465`, your address, an app password          |
 | `EMAIL_ALLOWED_RECIPIENTS`                            | Comma-separated addresses or `@domains` allowed to receive real email. Set this on public deployments         |
+| `EMAIL_MAX_RECIPIENTS` / `EMAIL_MAX_PER_RECIPIENT`    | Cap on how many different people get email, and emails per address (default 3)                                |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN`               | Upstash Redis for counting emails. Added automatically by Vercel's Upstash integration                        |
 | `NEXT_PUBLIC_REPO_URL`                                | GitHub link used in the footer and About page                                                                 |
 | `NEXT_PUBLIC_FOUNDER_LINKEDIN_URL`                    | Shows a LinkedIn link on the About page when set                                                              |
 
@@ -258,6 +260,20 @@ Gmail allows roughly 500 emails a day, which is plenty for a demo. Any SMTP prov
 (Resend, SendGrid, Postmark, Amazon SES), but those need a verified sending domain. Without SMTP settings,
 no email is sent. `EMAIL_MODE=test` sends to a fake [Ethereal](https://ethereal.email) inbox instead, for
 development.
+
+#### Protecting a public demo
+
+- **Fake addresses are turned away.** Test domains (`example.com`, `.test`), well-known throwaway inboxes
+  (Mailinator, 10 Minute Mail, YOPmail and others) and domains with no mail or DNS records get "Please
+  use a real email address", and the customer can correct it. If the DNS lookup itself fails, the address
+  is allowed, so real customers are never blocked by a network hiccup.
+- **A cap on how many people get email.** Set `EMAIL_MAX_RECIPIENTS=50` and, after 50 different people,
+  bookings still work but no more email is sent; the confirmation page says so. Each address gets at most
+  `EMAIL_MAX_PER_RECIPIENT` emails (default 3).
+- **Counting needs Upstash Redis** (free), because Vercel functions don't share memory. In the Vercel
+  project, open **Storage → Create Database → Upstash for Redis**, connect it to the project, and Vercel
+  adds `KV_REST_API_URL` and `KV_REST_API_TOKEN` for you. Only SHA-256 hashes of addresses are stored. If
+  a cap is set but Redis isn't connected, email pauses rather than going over the limit.
 
 ## Deployment
 

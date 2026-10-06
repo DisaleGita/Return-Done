@@ -3,6 +3,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { addDays, toISODate } from "@/lib/dates";
 
 vi.mock("server-only", () => ({}));
+// Apply the offline address rules, but don't do real DNS lookups in tests.
+vi.mock("@/lib/email/address-check", async (importActual) => {
+  const actual = await importActual<typeof import("@/lib/email/address-check")>();
+  return { ...actual, checkEmailAddress: async (email: string) => actual.checkDomainRules(email) };
+});
 
 const { POST: createReturn } = await import("./returns/route");
 const { POST: analyze, GET: engine } = await import("./assistant/route");
@@ -19,7 +24,7 @@ const validReturn = () => ({
   retailerName: "Nike",
   itemDescription: "Air Max sneakers",
   itemCount: 1,
-  contactEmail: "alex@example.com",
+  contactEmail: "alex@gmail.com",
   pickup: {
     date: toISODate(addDays(new Date(), 3)),
     windowId: "10-12",
@@ -54,6 +59,15 @@ describe("POST /api/returns", () => {
     const ok = await (await createReturn(json(validReturn()))).json();
     expect(ok.return).not.toHaveProperty("contactEmail");
     expect(ok.email.status).toBe("skipped");
+  });
+
+  it("turns away test and throwaway email addresses", async () => {
+    const fake = await createReturn(json({ ...validReturn(), contactEmail: "a@example.com" }));
+    expect(fake.status).toBe(422);
+    expect((await fake.json()).fieldErrors.contactEmail).toBe("Please use a real email address");
+
+    const temp = await createReturn(json({ ...validReturn(), contactEmail: "a@mailinator.com" }));
+    expect((await temp.json()).fieldErrors.contactEmail).toMatch(/permanent email address/);
   });
 
   it("returns field errors for invalid input", async () => {

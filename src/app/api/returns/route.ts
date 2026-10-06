@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { buildReturnRecord } from "@/lib/create-return";
 import { addDays, parseISODate } from "@/lib/dates";
 import { schedulingConfig } from "@/lib/config";
+import { checkEmailAddress } from "@/lib/email/address-check";
 import { sendConfirmationEmail } from "@/lib/email/send";
 import { createReturnSchema, toFieldErrors } from "@/lib/schemas";
 
@@ -43,6 +44,15 @@ export async function POST(request: Request) {
         error: "That pickup date is outside our booking window",
         fieldErrors: { "pickup.date": "Choose a date in the next two weeks" },
       },
+      { status: 422 },
+    );
+  }
+
+  // Turn away made-up and throwaway addresses before booking anything.
+  const address = await checkEmailAddress(parsed.data.contactEmail);
+  if (!address.ok) {
+    return NextResponse.json(
+      { error: address.message, fieldErrors: { contactEmail: address.message } },
       { status: 422 },
     );
   }

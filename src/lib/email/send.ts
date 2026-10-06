@@ -3,6 +3,14 @@ import nodemailer, { type Transporter } from "nodemailer";
 import { siteConfig } from "../config";
 import type { ReturnRecord } from "../returns";
 import { renderConfirmationEmail } from "./confirmation-email";
+import {
+  claimEmailSlot,
+  createMemoryStore,
+  createUpstashStore,
+  readLimits,
+  type QuotaResult,
+  type QuotaStore,
+} from "./quota";
 import { isRecipientAllowed } from "./recipients";
 import type { EmailResult } from "./types";
 
@@ -50,6 +58,33 @@ function getSmtpTransport(): Transporter {
   });
 }
 
+let memoryStore: QuotaStore | null = null;
+
+/** Upstash in production; an in-memory store for local development. */
+function getQuotaStore(): QuotaStore | null {
+  const upstash = createUpstashStore();
+  if (upstash) return upstash;
+  if (process.env.VERCEL) return null; // memory isn't shared between serverless instances
+  return (memoryStore ??= createMemoryStore());
+}
+
+/** Enforces EMAIL_MAX_RECIPIENTS. Fails closed: if counting fails, nothing is sent. */
+async function checkQuota(to: string): Promise<QuotaResult> {
+  const limits = readLimits();
+  if (!limits) return { ok: true };
+  const store = getQuotaStore();
+  if (!store) {
+    console.error("[email] EMAIL_MAX_RECIPIENTS is set but no Upstash Redis store is connected");
+    return { ok: false, reason: "Demo emails are paused while the email limit is being set up" };
+  }
+  try {
+    return await claimEmailSlot(to, limits, store);
+  } catch (error) {
+    console.error("[email] quota check failed:", error instanceof Error ? error.message : error);
+    return { ok: false, reason: "We couldn't check this demo's email limit right now" };
+  }
+}
+
 /**
  * Sends the pickup confirmation. Never throws: a booking must not fail because
  * an email couldn't be sent.
@@ -62,6 +97,10 @@ export async function sendConfirmationEmail(
   if (mode === "off") return { status: "skipped", reason: "Email is turned off for this demo" };
   if (mode === "smtp" && !isRecipientAllowed(to, process.env.EMAIL_ALLOWED_RECIPIENTS)) {
     return { status: "skipped", reason: "That address isn't on this demo's allow-list" };
+  }
+  if (mode === "smtp") {
+    const quota = await checkQuota(to);
+    if (!quota.ok) return { status: "skipped", reason: quota.reason };
   }
 
   const content = renderConfirmationEmail(record, siteConfig.url);

@@ -300,8 +300,6 @@ Things to try:
 
 ## Screenshots
 
-<!-- TODO: capture these from the deployed site and save them under docs/screenshots/ -->
-
 | Landing page                                  | Return scheduling                                     |
 | --------------------------------------------- | ----------------------------------------------------- |
 | ![Landing page](docs/screenshots/landing.png) | ![Scheduling a pickup](docs/screenshots/schedule.png) |

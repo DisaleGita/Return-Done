@@ -44,6 +44,19 @@ describe("renderConfirmationEmail", () => {
     expect(email.html).toContain("No real pickup has been scheduled");
   });
 
+  it("lists uploaded labels and says they're attached", () => {
+    const withLabel = {
+      ...record,
+      attachments: [{ name: "ups-label.pdf", type: "application/pdf" as const, size: 1000 }],
+    };
+    const email = renderConfirmationEmail(withLabel, "https://returndone.example");
+    expect(email.text).toContain("Your label / QR code: ups-label.pdf");
+    expect(email.html).toContain("attached to this email");
+    expect(renderConfirmationEmail(record, "https://x").text).not.toContain(
+      "attached to this email",
+    );
+  });
+
   it("escapes customer input so it can't inject HTML", () => {
     const hostile = {
       ...record,

@@ -1,5 +1,6 @@
 import type { PickupWindowId } from "./config";
 import { daysBetween, parseISODate, type ISODate } from "./dates";
+import type { AttachmentInfo } from "./attachments";
 import type { PriceQuote } from "./pricing";
 
 export const RETURN_STATUSES = [
@@ -100,6 +101,8 @@ export interface ReturnRecord {
     instructions?: string;
   };
   price: PriceQuote;
+  /** Labels, QR codes or barcodes the customer attached. Previews live in the browser only. */
+  attachments?: AttachmentInfo[];
   status: ReturnStatus;
   history: StatusEvent[];
 }

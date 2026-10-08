@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowLeft, Check, Copy, FastForward, MapPin, SearchX } from "lucide-react";
+import { ArrowLeft, Check, Copy, FastForward, FileText, MapPin, SearchX } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card, EmptyState, Skeleton } from "@/components/ui/primitives";
 import { useToast } from "@/components/ui/Toast";
@@ -124,6 +124,38 @@ export function ReturnDetailView({ id }: { id: string }) {
             </div>
           </Card>
 
+          {record.attachments && record.attachments.length > 0 && (
+            <Card as="section" aria-labelledby="label-heading">
+              <h2 id="label-heading" className={styles.cardTitle}>
+                Your label &amp; QR code
+              </h2>
+              <p className={styles.muted}>
+                Our driver uses these at pickup. A copy was attached to your confirmation email.
+              </p>
+              <ul className={styles.labels}>
+                {record.attachments.map((file) => (
+                  <li key={file.name}>
+                    {file.preview ? (
+                      <figure>
+                        {/* eslint-disable-next-line @next/next/no-img-element -- local data URL */}
+                        <img src={file.preview} alt={`Uploaded return label: ${file.name}`} />
+                        <figcaption>{file.name}</figcaption>
+                      </figure>
+                    ) : (
+                      <p className={styles.pdfFile}>
+                        <FileText aria-hidden="true" />
+                        <span>
+                          {file.name}
+                          <span className={styles.sub}>PDF · in your confirmation email</span>
+                        </span>
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          )}
+
           <Card as="section" className={styles.demoCard} aria-labelledby="demo-heading">
             <div>
               <h2 id="demo-heading" className={styles.cardTitle}>
@@ -222,7 +254,13 @@ export function ReturnDetailView({ id }: { id: string }) {
               <div>
                 <dt>Label / QR code</dt>
                 <dd>
-                  {record.hasQrCode ? "QR code" : record.hasReturnLabel ? "Label" : "We'll sort it"}
+                  {record.attachments?.length
+                    ? "Uploaded"
+                    : record.hasQrCode
+                      ? "QR code"
+                      : record.hasReturnLabel
+                        ? "Label"
+                        : "We'll sort it"}
                 </dd>
               </div>
               <div>

@@ -131,6 +131,15 @@ export function Confirmation({ record, email, headingRef, onScheduleAnother }: C
                 </span>
               </dd>
             </div>
+            {record.attachments && record.attachments.length > 0 && (
+              <div>
+                <dt>Label / QR code</dt>
+                <dd>
+                  {record.attachments.map((a) => a.name).join(", ")}
+                  <span>Attached to your confirmation email</span>
+                </dd>
+              </div>
+            )}
             <div>
               <dt>Total</dt>
               <dd className="tabular">

@@ -73,7 +73,9 @@ Everything below is implemented and works in the demo without any external servi
   - **Start:** the customer's email for the confirmation (required, asked first), then a searchable
     retailer picker with an "Other retailer" option.
   - **Details:** item, count, order number, reason, refund amount, deadline, packaging, label, QR code and
-    carrier. Only the item description is required.
+    carrier. Only the item description is required. Customers can also upload up to 3 return labels,
+    QR codes or barcodes (JPG, PNG, WebP or PDF, 4 MB total). Photos are downscaled in the browser so
+    codes stay readable and uploads stay small.
   - **Method:** Doorstep Pickup, with what's included and the price.
   - **Pickup:** a mobile-friendly day picker, two-hour windows (8 AM to 8 PM) that close an hour before they
     start, the address and special instructions.
@@ -96,7 +98,9 @@ Everything below is implemented and works in the demo without any external servi
     any failure.
   - The UI always says which engine produced the result.
 - **Confirmation email:** the first step asks for the customer's email (required), and they get a "Your return is
-  scheduled" email with the tracking number, pickup window, address and a tracking link. It's marked
+  scheduled" email with the tracking number, pickup window, address, a tracking link and any uploaded labels
+  attached. Uploads are checked by their actual contents (not just the file name), passed straight into the
+  email and never stored; the return's page keeps small previews in the browser only. It's marked
   **[TEST]** with a banner saying it comes from a demo website. It sends once SMTP settings are added (see
   [Confirmation emails](#confirmation-emails)). Input is HTML-escaped, the address isn't stored, and an email
   failure never fails the booking.

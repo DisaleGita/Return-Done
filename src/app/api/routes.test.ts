@@ -70,6 +70,50 @@ describe("POST /api/returns", () => {
     expect((await temp.json()).fieldErrors.contactEmail).toMatch(/permanent email address/);
   });
 
+  describe("with attachments", () => {
+    const png = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13]);
+    const form = (files: { name: string; bytes: Uint8Array; type: string }[]) => {
+      const data = new FormData();
+      data.append("payload", JSON.stringify(validReturn()));
+      for (const f of files)
+        data.append("attachments", new File([new Uint8Array(f.bytes)], f.name, { type: f.type }));
+      return new Request("http://localhost/api", { method: "POST", body: data });
+    };
+
+    it("accepts a label image and records its safe name, never its contents", async () => {
+      const response = await createReturn(
+        form([{ name: "UPS label.png", bytes: png, type: "image/png" }]),
+      );
+      expect(response.status).toBe(201);
+      const { return: record } = await response.json();
+      expect(record.attachments).toEqual([
+        { name: "UPS-label.png", type: "image/png", size: png.byteLength },
+      ]);
+      expect(JSON.stringify(record)).not.toContain("preview");
+    });
+
+    it("rejects a file that isn't really an image or PDF", async () => {
+      const fake = new TextEncoder().encode("<html>not a label</html>");
+      const response = await createReturn(
+        form([{ name: "label.png", bytes: fake, type: "image/png" }]),
+      );
+      expect(response.status).toBe(422);
+      expect((await response.json()).fieldErrors.attachments).toMatch(
+        /isn't a JPG, PNG, WebP or PDF/,
+      );
+    });
+
+    it("rejects more than three files", async () => {
+      const files = Array.from({ length: 4 }, (_, i) => ({
+        name: `${i}.png`,
+        bytes: png,
+        type: "image/png",
+      }));
+      const response = await createReturn(form(files));
+      expect(response.status).toBe(422);
+    });
+  });
+
   it("returns field errors for invalid input", async () => {
     const response = await createReturn(json({ ...validReturn(), itemDescription: "" }));
     expect(response.status).toBe(422);

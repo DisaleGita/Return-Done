@@ -1,0 +1,211 @@
+.picker {
+  display: grid;
+  gap: 6px;
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border);
+}
+
+.labelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink-800);
+}
+
+.optional {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-tertiary);
+}
+
+.hint {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.drop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  padding: var(--space-5);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  font-size: var(--text-sm);
+  color: var(--ink-800);
+  cursor: pointer;
+  transition:
+    border-color var(--duration) var(--ease-out),
+    background-color var(--duration) var(--ease-out);
+}
+
+.drop:hover,
+.drop[data-dragging] {
+  border-color: var(--brand-400);
+  background: var(--brand-50);
+}
+
+.drop[data-invalid] {
+  border-color: var(--red-600);
+}
+
+/* The real input is visually hidden; show focus on the drop area instead. */
+.picker:has(input:focus-visible) .drop {
+  box-shadow: var(--focus-ring);
+  border-color: var(--brand-500);
+}
+
+.drop > svg {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  color: var(--brand-600);
+}
+
+.drop strong {
+  color: var(--brand-700);
+}
+
+.dropMeta {
+  color: var(--text-tertiary);
+}
+
+.spin {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  min-height: 0;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--red-600);
+}
+
+.error:empty {
+  display: none;
+}
+
+.list {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .list {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  animation: item-in var(--duration-slow) var(--ease-out);
+}
+
+@keyframes item-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+
+.thumb,
+.pdf {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+}
+
+.thumb {
+  object-fit: cover;
+  border: 1px solid var(--ink-100);
+}
+
+.pdf {
+  display: grid;
+  place-items: center;
+  background: var(--red-50);
+  color: var(--red-600);
+}
+
+.pdf svg {
+  width: 22px;
+  height: 22px;
+}
+
+.meta {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.size {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.remove {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-tertiary);
+}
+
+.remove:hover {
+  background: var(--ink-100);
+  color: var(--ink-900);
+}
+
+.remove svg {
+  width: 16px;
+  height: 16px;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.total svg {
+  width: 13px;
+  height: 13px;
+}

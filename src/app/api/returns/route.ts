@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { validateAttachments, type ValidatedAttachment } from "@/lib/attachments";
 import { buildReturnRecord } from "@/lib/create-return";
 import { addDays, parseISODate } from "@/lib/dates";
 import { schedulingConfig } from "@/lib/config";
@@ -12,16 +13,53 @@ import { createReturnSchema, toFieldErrors } from "@/lib/schemas";
  *
  * In this demo the record is persisted by the client (localStorage). In
  * production this handler is where the database write and payment intent
- * would go. If the customer gave an email address, a confirmation is sent
- * (see EMAIL_MODE); the address itself isn't stored on the record.
+ * would go. A confirmation email is sent to the customer (see EMAIL_MODE); the
+ * address itself isn't stored on the record.
+ *
+ * Accepts JSON, or multipart/form-data with the details as a JSON "payload"
+ * field plus up to three "attachments" (return labels, QR codes, barcodes).
+ * Attachments go into the confirmation email and are never stored.
  */
-export async function POST(request: Request) {
-  let body: unknown;
+async function readRequest(
+  request: Request,
+): Promise<{ body: unknown; files: { name: string; bytes: Uint8Array }[] } | null> {
   try {
-    body = await request.json();
+    if ((request.headers.get("content-type") ?? "").startsWith("multipart/form-data")) {
+      const form = await request.formData();
+      const payload = form.get("payload");
+      if (typeof payload !== "string") return null;
+      const files = await Promise.all(
+        form
+          .getAll("attachments")
+          .filter((value): value is File => typeof value !== "string")
+          .map(async (file) => ({
+            name: file.name,
+            bytes: new Uint8Array(await file.arrayBuffer()),
+          })),
+      );
+      return { body: JSON.parse(payload), files };
+    }
+    return { body: await request.json(), files: [] };
   } catch {
-    return NextResponse.json({ error: "Request body must be JSON" }, { status: 400 });
+    return null;
   }
+}
+
+export async function POST(request: Request) {
+  const input = await readRequest(request);
+  if (!input) {
+    return NextResponse.json({ error: "Request body must be JSON or form data" }, { status: 400 });
+  }
+  const { body } = input;
+
+  const checked = validateAttachments(input.files);
+  if (!checked.ok) {
+    return NextResponse.json(
+      { error: checked.message, fieldErrors: { attachments: checked.message } },
+      { status: 422 },
+    );
+  }
+  const attachments: ValidatedAttachment[] = checked.files;
 
   const parsed = createReturnSchema.safeParse(body);
   if (!parsed.success) {
@@ -57,8 +95,15 @@ export async function POST(request: Request) {
     );
   }
 
-  const record = buildReturnRecord(parsed.data, now);
-  const email = await sendConfirmationEmail(record, parsed.data.contactEmail);
+  const record = {
+    ...buildReturnRecord(parsed.data, now),
+    attachments: attachments.map((a) => ({
+      name: a.filename,
+      type: a.type,
+      size: a.content.byteLength,
+    })),
+  };
+  const email = await sendConfirmationEmail(record, parsed.data.contactEmail, attachments);
 
   return NextResponse.json({ return: record, email }, { status: 201 });
 }

@@ -109,8 +109,11 @@ describe("ScheduleWizard", () => {
     const { buildReturnRecord } = await import("@/lib/create-return");
     const { createReturnSchema } = await import("@/lib/schemas");
 
+    const uploaded: string[] = [];
     const fetchMock = vi.fn(async (_url: string, init?: RequestInit) => {
-      const input = createReturnSchema.parse(JSON.parse(String(init?.body)));
+      const form = init?.body as FormData;
+      const input = createReturnSchema.parse(JSON.parse(String(form.get("payload"))));
+      uploaded.push(...form.getAll("attachments").map((f) => (f as File).name));
       return new Response(JSON.stringify({ return: buildReturnRecord(input, new Date()) }), {
         status: 201,
       });
@@ -146,6 +149,11 @@ describe("ScheduleWizard", () => {
     await user.click(screen.getByRole("button", { name: "Continue" }));
     expect(await screen.findByText(/Describe the item/)).toBeInTheDocument();
     await user.type(screen.getByRole("textbox", { name: /^Item/ }), "Black blazer");
+    await user.upload(
+      screen.getByLabelText("Return label, QR code or barcode"),
+      new File(["%PDF-1.7 label"], "ups-label.pdf", { type: "application/pdf" }),
+    );
+    expect(await screen.findByText("ups-label.pdf")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Continue" }));
 
     // Step 3: method.
@@ -172,6 +180,7 @@ describe("ScheduleWizard", () => {
     ).toBeInTheDocument();
     expect(screen.getByText(/^RD-\d{4}-\d{4}$/)).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledOnce();
+    expect(uploaded).toEqual(["ups-label.pdf"]);
 
     vi.unstubAllGlobals();
   });

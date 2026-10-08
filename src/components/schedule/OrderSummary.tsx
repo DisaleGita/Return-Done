@@ -10,10 +10,12 @@ export function OrderSummary({
   draft,
   quote,
   step,
+  attachmentCount = 0,
 }: {
   draft: ReturnDraft;
   quote: PriceQuote;
   step: number;
+  attachmentCount?: number;
 }) {
   const retailer = retailerNameFor(draft);
   const count = Math.max(1, Number(draft.itemCount) || 1);
@@ -45,6 +47,14 @@ export function OrderSummary({
           <dt>Method</dt>
           <dd>Doorstep Pickup</dd>
         </div>
+        {attachmentCount > 0 && (
+          <div>
+            <dt>Label / QR code</dt>
+            <dd>
+              {attachmentCount} {attachmentCount === 1 ? "file" : "files"} attached
+            </dd>
+          </div>
+        )}
         <div>
           <dt>Pickup</dt>
           <dd>

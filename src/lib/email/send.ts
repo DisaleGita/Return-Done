@@ -1,5 +1,6 @@
 import "server-only";
 import nodemailer, { type Transporter } from "nodemailer";
+import type { ValidatedAttachment } from "../attachments";
 import { siteConfig } from "../config";
 import type { ReturnRecord } from "../returns";
 import { renderConfirmationEmail } from "./confirmation-email";
@@ -93,6 +94,7 @@ async function checkQuota(to: string): Promise<QuotaResult> {
 export async function sendConfirmationEmail(
   record: ReturnRecord,
   to: string,
+  attachments: ValidatedAttachment[] = [],
 ): Promise<EmailResult> {
   const mode = getEmailMode();
   if (mode === "off") return { status: "skipped", reason: "Email is turned off for this demo" };
@@ -109,7 +111,16 @@ export async function sendConfirmationEmail(
 
   try {
     const transport = mode === "test" ? await getTestTransport() : getSmtpTransport();
-    const info = await transport.sendMail({ from, to, ...content });
+    const info = await transport.sendMail({
+      from,
+      to,
+      ...content,
+      attachments: attachments.map((a) => ({
+        filename: a.filename,
+        content: Buffer.from(a.content),
+        contentType: a.type,
+      })),
+    });
     if (mode === "test") {
       const previewUrl = nodemailer.getTestMessageUrl(info);
       return previewUrl ? { status: "sent", mode: "test", previewUrl } : { status: "failed" };

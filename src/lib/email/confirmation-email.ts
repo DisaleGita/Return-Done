@@ -44,8 +44,17 @@ export function renderConfirmationEmail(record: ReturnRecord, siteUrl: string): 
     ...(record.pickup.instructions
       ? ([["Instructions", record.pickup.instructions]] as [string, string][])
       : []),
+    ...(record.attachments?.length
+      ? ([["Your label / QR code", record.attachments.map((a) => a.name).join(", ")]] as [
+          string,
+          string,
+        ][])
+      : []),
     ["Total", `${formatMoney(record.price.total)} (demo, no payment taken)`],
   ];
+  const attachedNote = record.attachments?.length
+    ? `A copy of what you uploaded is attached to this email. Our driver uses it at pickup.`
+    : null;
 
   const subject = `[TEST] Your Return Done pickup is scheduled (${record.id})`;
 
@@ -56,6 +65,7 @@ export function renderConfirmationEmail(record: ReturnRecord, siteUrl: string): 
     "",
     ...rows.map(([label, value]) => `${label}: ${value}`),
     "",
+    ...(attachedNote ? [attachedNote, ""] : []),
     "Leave the item unpacked. Our driver checks it at the door, then packs and labels it.",
     "You can reschedule up to two hours before your window starts.",
     "",
@@ -90,6 +100,7 @@ export function renderConfirmationEmail(record: ReturnRecord, siteUrl: string): 
         </table>
       </td></tr>
       <tr><td style="padding:8px 28px 4px;font-size:14px;color:#4a5c5e">
+        ${attachedNote ? `<p style="margin:0 0 8px">${escapeHtml(attachedNote)}</p>` : ""}
         <p style="margin:0 0 8px">Leave the item unpacked. Our driver checks it at the door, then packs and labels it.</p>
         <p style="margin:0">You can reschedule up to two hours before your window starts.</p>
       </td></tr>

@@ -16,6 +16,7 @@ import {
   type ReturnDraft,
 } from "@/lib/return-draft";
 import type { EmailResult } from "@/lib/email/types";
+import type { PreparedAttachment } from "@/lib/prepare-attachment";
 import type { ReturnRecord } from "@/lib/returns";
 import { returnsStore } from "@/lib/returns-store";
 import type { FieldErrors } from "@/lib/schemas";
@@ -54,6 +55,7 @@ const STEP_FOR_FIELD: Record<string, number> = {
   orderNumber: 1,
   refundAmount: 1,
   returnDeadline: 1,
+  attachments: 1,
 };
 
 export type UpdateDraft = <K extends keyof ReturnDraft>(field: K, value: ReturnDraft[K]) => void;
@@ -73,6 +75,7 @@ export function ScheduleWizard() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [created, setCreated] = useState<ReturnRecord | null>(null);
   const [email, setEmail] = useState<{ to: string; result: EmailResult } | null>(null);
+  const [attachments, setAttachments] = useState<PreparedAttachment[]>([]);
 
   const headingRef = useRef<HTMLHeadingElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -114,11 +117,11 @@ export function ScheduleWizard() {
     setSubmitting(true);
     setSubmitError(null);
     try {
-      const response = await fetch("/api/returns", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(draftToInput(draft)),
-      });
+      // Booking details as JSON plus any labels/QR codes as files.
+      const form = new FormData();
+      form.append("payload", JSON.stringify(draftToInput(draft)));
+      for (const file of attachments) form.append("attachments", file.blob, file.name);
+      const response = await fetch("/api/returns", { method: "POST", body: form });
       const body = await response.json().catch(() => ({}));
 
       if (response.status === 422 && body.fieldErrors) {
@@ -133,7 +136,13 @@ export function ScheduleWizard() {
       }
       if (!response.ok || !body.return) throw new Error(body.error ?? `HTTP ${response.status}`);
 
-      const saved = returnsStore.add(body.return as ReturnRecord);
+      // The server returns safe file names; previews never leave the browser.
+      const record = body.return as ReturnRecord;
+      record.attachments = record.attachments?.map((info, index) => ({
+        ...info,
+        preview: attachments[index]?.preview,
+      }));
+      const saved = returnsStore.add(record);
       setCreated(saved);
       setEmail(body.email ? { to: draft.contactEmail.trim(), result: body.email } : null);
       focusTarget.current = "heading";
@@ -178,6 +187,7 @@ export function ScheduleWizard() {
         onScheduleAnother={() => {
           setCreated(null);
           setDraft(EMPTY_DRAFT);
+          setAttachments([]);
           goTo(0);
         }}
       />
@@ -211,7 +221,15 @@ export function ScheduleWizard() {
             )}
 
             {step === 0 && <RetailerStep {...stepProps} headingRef={headingRef} />}
-            {step === 1 && <DetailsStep {...stepProps} headingRef={headingRef} now={now} />}
+            {step === 1 && (
+              <DetailsStep
+                {...stepProps}
+                headingRef={headingRef}
+                now={now}
+                attachments={attachments}
+                onAttachmentsChange={setAttachments}
+              />
+            )}
             {step === 2 && <MethodStep headingRef={headingRef} itemCount={itemCount} />}
             {step === 3 && <PickupStep {...stepProps} headingRef={headingRef} now={now} />}
           </div>
@@ -253,7 +271,12 @@ export function ScheduleWizard() {
           </div>
         </form>
 
-        <OrderSummary draft={draft} quote={quote} step={step} />
+        <OrderSummary
+          draft={draft}
+          quote={quote}
+          step={step}
+          attachmentCount={attachments.length}
+        />
       </div>
     </div>
   );

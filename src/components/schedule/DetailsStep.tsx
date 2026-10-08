@@ -2,6 +2,8 @@
 
 import type { RefObject } from "react";
 import { Field, Input, Segmented, Select } from "@/components/ui/Field";
+import type { PreparedAttachment } from "@/lib/prepare-attachment";
+import { AttachmentPicker } from "./AttachmentPicker";
 import { pricingConfig } from "@/lib/config";
 import { toISODate } from "@/lib/dates";
 import { getRetailer } from "@/lib/retailers";
@@ -17,6 +19,8 @@ interface Props {
   errors: FieldErrors;
   headingRef: RefObject<HTMLHeadingElement | null>;
   now: Date | null;
+  attachments: PreparedAttachment[];
+  onAttachmentsChange: (files: PreparedAttachment[]) => void;
 }
 
 const YES_NO = [
@@ -24,7 +28,15 @@ const YES_NO = [
   { value: "no" as const, label: "No" },
 ];
 
-export function DetailsStep({ draft, update, errors, headingRef, now }: Props) {
+export function DetailsStep({
+  draft,
+  update,
+  errors,
+  headingRef,
+  now,
+  attachments,
+  onAttachmentsChange,
+}: Props) {
   const retailer = getRetailer(draft.retailerId);
   const retailerName = retailerNameFor(draft) || "the retailer";
 
@@ -183,6 +195,12 @@ export function DetailsStep({ draft, update, errors, headingRef, now }: Props) {
           hint="Some retailers send one instead of a label."
         />
       </div>
+
+      <AttachmentPicker
+        files={attachments}
+        onChange={onAttachmentsChange}
+        error={errors.attachments}
+      />
     </section>
   );
 }

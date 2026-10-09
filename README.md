@@ -106,6 +106,9 @@ Everything below is implemented and works in the demo without any external servi
   failure never fails the booking.
 - **Demo account:** six seeded returns, with dates generated relative to today so they never look stale.
   Data is kept in the browser, with a "Reset demo" control.
+- **Visitor analytics:** Vercel Web Analytics counts page views, visitors, top pages, referrers and
+  devices. It uses no cookies, and query strings and tracking numbers are stripped from page addresses
+  before they're sent.
 - **Polish:** a design system (tokens, buttons, cards, inputs, badges, status components, modal, toasts),
   page and step transitions, success animation, loading states, a polished 404 and an error boundary.
 - **Accessibility:** semantic landmarks, a skip link, labelled controls, errors wired with `aria-describedby`,
@@ -158,6 +161,7 @@ src/
 | Testing    | Vitest + Testing Library (unit, API route and full wizard flow tests) |
 | Quality    | ESLint (`eslint-config-next`), Prettier, `tsc --noEmit`               |
 | Hosting    | Vercel (zero config)                                                  |
+| Analytics  | Vercel Web Analytics (cookieless, anonymized URLs)                    |
 
 **Request flow when you schedule a return.** The wizard validates each step on the client with the same zod
 schemas the server uses. On submit, it posts to `POST /api/returns`. The handler validates the payload again,

@@ -24,7 +24,7 @@ const validReturn = () => ({
   retailerName: "Nike",
   itemDescription: "Air Max sneakers",
   itemCount: 1,
-  contactEmail: "alex@gmail.com",
+  contactEmail: "customer@gmail.com",
   pickup: {
     date: toISODate(addDays(new Date(), 3)),
     windowId: "10-12",

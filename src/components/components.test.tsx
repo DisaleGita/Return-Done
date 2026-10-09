@@ -169,7 +169,7 @@ describe("ScheduleWizard", () => {
     await user.click(screen.getByRole("button", { name: "Continue" }));
     expect(await screen.findByText("Enter a valid email address")).toBeInTheDocument();
     await user.clear(screen.getByRole("textbox", { name: /Your email/ }));
-    await user.type(screen.getByRole("textbox", { name: /Your email/ }), "alex@gmail.com");
+    await user.type(screen.getByRole("textbox", { name: /Your email/ }), "customer@gmail.com");
     await user.type(screen.getByRole("searchbox", { name: "Search retailers" }), "zar");
     await user.click(screen.getByRole("radio", { name: /Zara/ }));
     await user.click(screen.getByRole("button", { name: "Continue" }));
@@ -230,7 +230,7 @@ describe("ScheduleWizard", () => {
         <ScheduleWizard />
       </ToastProvider>,
     );
-    await user.type(screen.getByRole("textbox", { name: /Your email/ }), "alex@gmail.com");
+    await user.type(screen.getByRole("textbox", { name: /Your email/ }), "customer@gmail.com");
     await user.click(screen.getByRole("radio", { name: /Nike/ }));
     await user.click(screen.getByRole("button", { name: "Continue" }));
     await user.type(await screen.findByRole("textbox", { name: /^Item/ }), "Sneakers");

@@ -58,6 +58,11 @@
   font-size: var(--text-xs);
 }
 
+.avatar svg {
+  width: 15px;
+  height: 15px;
+}
+
 .card {
   display: grid;
   gap: 12px;

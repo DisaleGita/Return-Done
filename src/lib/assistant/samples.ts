@@ -19,7 +19,7 @@ export function buildSamples(now: Date): AssistantSample[] {
     {
       id: "qr-email",
       label: "Sneaker return email",
-      text: `Hi Alex,
+      text: `Hi there,
 
 We've received your return request for order C01234567890.
 

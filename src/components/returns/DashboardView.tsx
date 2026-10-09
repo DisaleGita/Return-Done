@@ -7,7 +7,6 @@ import { Modal } from "@/components/ui/Modal";
 import { Badge, EmptyState, Skeleton } from "@/components/ui/primitives";
 import { useToast } from "@/components/ui/Toast";
 import { formatDate, relativeDayLabel } from "@/lib/dates";
-import { DEMO_ACCOUNT } from "@/lib/demo-data";
 import { formatMoney } from "@/lib/pricing";
 import { isComplete, sortReturns, summarizeReturns } from "@/lib/returns";
 import { returnsStore, useReturns } from "@/lib/returns-store";
@@ -52,7 +51,7 @@ export function DashboardView() {
       <header className={styles.header}>
         <div>
           <p className={styles.greeting}>
-            Hi {DEMO_ACCOUNT.firstName} <Badge tone="neutral">Demo account</Badge>
+            Welcome back <Badge tone="neutral">Demo account</Badge>
           </p>
           <h1 className={styles.title}>Your Returns</h1>
         </div>

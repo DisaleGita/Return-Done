@@ -25,13 +25,13 @@ const COMPLETE: ReturnDraft = {
   city: "Chicago",
   state: "il",
   zip: "60616",
-  contactEmail: "alex@gmail.com",
+  contactEmail: "customer@gmail.com",
 };
 
 describe("validateStep", () => {
   it("requires a retailer, and a name when choosing Other", () => {
     expect(validateStep("retailer", EMPTY_DRAFT, NOW)).toHaveProperty("retailerId");
-    const withEmail = { ...EMPTY_DRAFT, contactEmail: "alex@gmail.com" };
+    const withEmail = { ...EMPTY_DRAFT, contactEmail: "customer@gmail.com" };
     const other = validateStep("retailer", { ...withEmail, retailerId: "other" }, NOW);
     expect(other).toEqual({ customRetailerName: "Tell us the retailer's name" });
     expect(
@@ -115,7 +115,7 @@ describe("validateStep", () => {
     expect(validateStep("retailer", { ...COMPLETE, contactEmail: "" }, NOW)).toEqual({
       contactEmail: "Enter your email so we can send your confirmation",
     });
-    expect(validateStep("retailer", { ...COMPLETE, contactEmail: "alex@" }, NOW)).toEqual({
+    expect(validateStep("retailer", { ...COMPLETE, contactEmail: "customer@" }, NOW)).toEqual({
       contactEmail: "Enter a valid email address",
     });
     expect(validateStep("retailer", COMPLETE, NOW)).toEqual({});

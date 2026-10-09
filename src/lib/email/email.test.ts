@@ -99,7 +99,7 @@ describe("sendConfirmationEmail", () => {
     vi.stubEnv("SMTP_USER", "me@gmail.com");
     vi.stubEnv("SMTP_PASS", "app-password");
     vi.stubEnv("EMAIL_ALLOWED_RECIPIENTS", "");
-    expect(await sendConfirmationEmail(record, "alex@example.com")).toEqual({
+    expect(await sendConfirmationEmail(record, "customer@example.com")).toEqual({
       status: "sent",
       mode: "smtp",
     });
@@ -108,14 +108,14 @@ describe("sendConfirmationEmail", () => {
   it("does nothing when no email settings exist (the default)", async () => {
     vi.stubEnv("EMAIL_MODE", "");
     vi.stubEnv("SMTP_HOST", "");
-    const result = await sendConfirmationEmail(record, "alex@example.com");
+    const result = await sendConfirmationEmail(record, "customer@example.com");
     expect(result.status).toBe("skipped");
     expect(sendMail).not.toHaveBeenCalled();
   });
 
   it("sends through Ethereal in test mode and returns a preview link", async () => {
     vi.stubEnv("EMAIL_MODE", "test");
-    const result = await sendConfirmationEmail(record, "alex@example.com");
+    const result = await sendConfirmationEmail(record, "customer@example.com");
     expect(result).toEqual({
       status: "sent",
       mode: "test",
@@ -123,7 +123,7 @@ describe("sendConfirmationEmail", () => {
     });
     expect(sendMail).toHaveBeenCalledWith(
       expect.objectContaining({
-        to: "alex@example.com",
+        to: "customer@example.com",
         subject: expect.stringContaining(record.id),
       }),
     );
@@ -146,13 +146,17 @@ describe("sendConfirmationEmail", () => {
     vi.stubEnv("EMAIL_MODE", "test");
     sendMail.mockRejectedValueOnce(new Error("SMTP down"));
     vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(await sendConfirmationEmail(record, "alex@example.com")).toEqual({ status: "failed" });
+    expect(await sendConfirmationEmail(record, "customer@example.com")).toEqual({
+      status: "failed",
+    });
   });
 
   it("reports failure when SMTP mode is missing credentials", async () => {
     vi.stubEnv("EMAIL_MODE", "smtp");
     vi.stubEnv("SMTP_HOST", "");
     vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(await sendConfirmationEmail(record, "alex@example.com")).toEqual({ status: "failed" });
+    expect(await sendConfirmationEmail(record, "customer@example.com")).toEqual({
+      status: "failed",
+    });
   });
 });

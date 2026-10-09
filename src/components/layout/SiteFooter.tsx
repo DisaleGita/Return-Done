@@ -60,7 +60,7 @@ export function SiteFooter() {
         <p>
           This is a product demo. Pickups, payments and tracking are simulated, and no real orders
           are placed. Retailer names are used for identification only and don&apos;t imply any
-          partnership.
+          partnership. Page visits are counted with cookie-free, anonymous analytics.
         </p>
         <p>© {new Date().getFullYear()} Return Done</p>
       </div>

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { SiteAnalytics } from "@/components/layout/SiteAnalytics";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { ToastProvider } from "@/components/ui/Toast";
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
           <SiteFooter />
         </ToastProvider>
+        <SiteAnalytics />
       </body>
     </html>
   );

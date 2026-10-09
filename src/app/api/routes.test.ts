@@ -61,6 +61,16 @@ describe("POST /api/returns", () => {
     expect(ok.email.status).toBe("skipped");
   });
 
+  it("turns away mistyped provider domains with a suggestion", async () => {
+    const response = await createReturn(
+      json({ ...validReturn(), contactEmail: "customer@gnail.com" }),
+    );
+    expect(response.status).toBe(422);
+    expect((await response.json()).fieldErrors.contactEmail).toBe(
+      "Did you mean customer@gmail.com?",
+    );
+  });
+
   it("turns away test and throwaway email addresses", async () => {
     const fake = await createReturn(json({ ...validReturn(), contactEmail: "a@example.com" }));
     expect(fake.status).toBe(422);

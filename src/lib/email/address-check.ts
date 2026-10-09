@@ -1,76 +1,10 @@
 import { resolve4, resolveMx } from "node:dns/promises";
 
-/**
- * Throwaway inbox providers. Not exhaustive: the domain lookup below catches
- * made-up domains, and this catches the common real-but-disposable ones.
- */
-const DISPOSABLE_DOMAINS = new Set([
-  "10minutemail.com",
-  "20minutemail.com",
-  "33mail.com",
-  "dispostable.com",
-  "emailondeck.com",
-  "fakeinbox.com",
-  "getairmail.com",
-  "getnada.com",
-  "guerrillamail.com",
-  "guerrillamail.net",
-  "guerrillamail.org",
-  "guerrillamailblock.com",
-  "inboxkitten.com",
-  "mailcatch.com",
-  "maildrop.cc",
-  "mailinator.com",
-  "mailnesia.com",
-  "mintemail.com",
-  "moakt.com",
-  "mohmal.com",
-  "mytemp.email",
-  "sharklasers.com",
-  "spamgourmet.com",
-  "temp-mail.org",
-  "tempail.com",
-  "tempmail.com",
-  "tempmail.net",
-  "tempmailo.com",
-  "tempr.email",
-  "throwawaymail.com",
-  "trashmail.com",
-  "trashmail.de",
-  "yopmail.com",
-  "yopmail.fr",
-]);
+import { checkDomainRules, domainOf, type AddressCheck } from "./email-rules";
 
-/** Domains reserved for documentation and testing (RFC 2606 / 6761). */
-const RESERVED_DOMAINS = new Set(["example.com", "example.net", "example.org", "localhost"]);
-const RESERVED_SUFFIXES = [".test", ".example", ".invalid", ".localhost", ".local"];
-
-export type AddressCheck = { ok: true } | { ok: false; message: string };
+export { checkDomainRules, domainOf, suggestEmail, type AddressCheck } from "./email-rules";
 
 const FAKE: AddressCheck = { ok: false, message: "Please use a real email address" };
-const DISPOSABLE: AddressCheck = {
-  ok: false,
-  message: "Please use a permanent email address, not a temporary inbox",
-};
-
-export function domainOf(email: string): string {
-  return email.trim().toLowerCase().split("@").pop() ?? "";
-}
-
-/** The checks that need no network access. */
-export function checkDomainRules(email: string): AddressCheck {
-  const domain = domainOf(email);
-  if (!domain.includes(".")) return FAKE;
-  const reserved = [...RESERVED_DOMAINS].some((d) => domain === d || domain.endsWith(`.${d}`));
-  if (reserved || RESERVED_SUFFIXES.some((s) => domain.endsWith(s))) return FAKE;
-  if (
-    DISPOSABLE_DOMAINS.has(domain) ||
-    [...DISPOSABLE_DOMAINS].some((d) => domain.endsWith(`.${d}`))
-  ) {
-    return DISPOSABLE;
-  }
-  return { ok: true };
-}
 
 export interface DnsResolver {
   resolveMx: (domain: string) => Promise<unknown[]>;

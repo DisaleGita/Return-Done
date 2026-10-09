@@ -25,13 +25,13 @@ const COMPLETE: ReturnDraft = {
   city: "Chicago",
   state: "il",
   zip: "60616",
-  contactEmail: "alex@example.com",
+  contactEmail: "alex@gmail.com",
 };
 
 describe("validateStep", () => {
   it("requires a retailer, and a name when choosing Other", () => {
     expect(validateStep("retailer", EMPTY_DRAFT, NOW)).toHaveProperty("retailerId");
-    const withEmail = { ...EMPTY_DRAFT, contactEmail: "alex@example.com" };
+    const withEmail = { ...EMPTY_DRAFT, contactEmail: "alex@gmail.com" };
     const other = validateStep("retailer", { ...withEmail, retailerId: "other" }, NOW);
     expect(other).toEqual({ customRetailerName: "Tell us the retailer's name" });
     expect(
@@ -98,6 +98,17 @@ describe("validateStep", () => {
       NOW,
     );
     expect(errors.pickupDate).toBe("Pick a date on or before your return deadline");
+  });
+
+  it("catches typo and placeholder emails on the first step", () => {
+    expect(
+      validateStep("retailer", { ...COMPLETE, contactEmail: "customer@gnail.com" }, NOW),
+    ).toEqual({
+      contactEmail: "Did you mean customer@gmail.com?",
+    });
+    expect(validateStep("retailer", { ...COMPLETE, contactEmail: "anc@abc.com" }, NOW)).toEqual({
+      contactEmail: "Please use your real email address so we can reach you",
+    });
   });
 
   it("asks for a valid email on the first step", () => {

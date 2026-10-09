@@ -24,7 +24,7 @@ const validReturn = () => ({
   retailerName: "Nike",
   itemDescription: "Air Max sneakers",
   itemCount: 1,
-  contactEmail: "alex@gmail.com",
+  contactEmail: "customer@gmail.com",
   pickup: {
     date: toISODate(addDays(new Date(), 3)),
     windowId: "10-12",
@@ -59,6 +59,16 @@ describe("POST /api/returns", () => {
     const ok = await (await createReturn(json(validReturn()))).json();
     expect(ok.return).not.toHaveProperty("contactEmail");
     expect(ok.email.status).toBe("skipped");
+  });
+
+  it("turns away mistyped provider domains with a suggestion", async () => {
+    const response = await createReturn(
+      json({ ...validReturn(), contactEmail: "customer@gnail.com" }),
+    );
+    expect(response.status).toBe(422);
+    expect((await response.json()).fieldErrors.contactEmail).toBe(
+      "Did you mean customer@gmail.com?",
+    );
   });
 
   it("turns away test and throwaway email addresses", async () => {

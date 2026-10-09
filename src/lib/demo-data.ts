@@ -8,12 +8,6 @@ import {
   type ReturnStatus,
 } from "./returns";
 
-/** Demo account shown on the dashboard. Not a real person. */
-export const DEMO_ACCOUNT = {
-  firstName: "Alex",
-  email: "alex@demo.returndone.app",
-} as const;
-
 export const DEMO_ADDRESS: PickupAddress = {
   line1: "10 W 35th St",
   city: "Chicago",

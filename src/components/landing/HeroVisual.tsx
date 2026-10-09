@@ -1,4 +1,4 @@
-import { CalendarClock, Check, MapPin } from "lucide-react";
+import { CalendarClock, Check, MapPin, User } from "lucide-react";
 import styles from "./HeroVisual.module.css";
 
 const STEPS = [
@@ -17,7 +17,9 @@ export function HeroVisual() {
       <div className={styles.phone}>
         <div className={styles.phoneTop}>
           <span>Your Returns</span>
-          <span className={styles.avatar}>A</span>
+          <span className={styles.avatar}>
+            <User />
+          </span>
         </div>
 
         <div className={styles.card}>

@@ -102,6 +102,36 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("ScheduleWizard", () => {
+  it("tells customers about a mistyped email while they fill in the form", async () => {
+    const user = userEvent.setup();
+    const { ScheduleWizard } = await import("./schedule/ScheduleWizard");
+    const { ToastProvider } = await import("./ui/Toast");
+    render(
+      <ToastProvider>
+        <ScheduleWizard />
+      </ToastProvider>,
+    );
+    const email = screen.getByRole("textbox", { name: /Your email/ });
+
+    // No message while they're still typing...
+    await user.type(email, "customer@gnail.com");
+    expect(screen.queryByText(/Did you mean/)).not.toBeInTheDocument();
+
+    // ...then a suggestion as soon as they leave the field.
+    await user.tab();
+    expect(await screen.findByText("Did you mean customer@gmail.com?")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Use customer@gmail.com" }));
+    expect(email).toHaveValue("customer@gmail.com");
+    expect(screen.queryByText(/Did you mean/)).not.toBeInTheDocument();
+
+    // Placeholder domains get a message too, updated live once the field was visited.
+    await user.clear(email);
+    await user.type(email, "anc@abc.com");
+    expect(
+      await screen.findByText("Please use your real email address so we can reach you"),
+    ).toBeInTheDocument();
+  });
+
   it("walks through all steps, validates, and shows the confirmation", async () => {
     const user = userEvent.setup();
     const { ScheduleWizard } = await import("./schedule/ScheduleWizard");
@@ -139,7 +169,7 @@ describe("ScheduleWizard", () => {
     await user.click(screen.getByRole("button", { name: "Continue" }));
     expect(await screen.findByText("Enter a valid email address")).toBeInTheDocument();
     await user.clear(screen.getByRole("textbox", { name: /Your email/ }));
-    await user.type(screen.getByRole("textbox", { name: /Your email/ }), "alex@example.com");
+    await user.type(screen.getByRole("textbox", { name: /Your email/ }), "customer@gmail.com");
     await user.type(screen.getByRole("searchbox", { name: "Search retailers" }), "zar");
     await user.click(screen.getByRole("radio", { name: /Zara/ }));
     await user.click(screen.getByRole("button", { name: "Continue" }));
@@ -200,7 +230,7 @@ describe("ScheduleWizard", () => {
         <ScheduleWizard />
       </ToastProvider>,
     );
-    await user.type(screen.getByRole("textbox", { name: /Your email/ }), "alex@example.com");
+    await user.type(screen.getByRole("textbox", { name: /Your email/ }), "customer@gmail.com");
     await user.click(screen.getByRole("radio", { name: /Nike/ }));
     await user.click(screen.getByRole("button", { name: "Continue" }));
     await user.type(await screen.findByRole("textbox", { name: /^Item/ }), "Sneakers");

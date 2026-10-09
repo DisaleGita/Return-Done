@@ -12,7 +12,7 @@ import {
   getRetailer,
   searchRetailers,
 } from "@/lib/retailers";
-import type { ReturnDraft } from "@/lib/return-draft";
+import { checkContactEmail, type ReturnDraft } from "@/lib/return-draft";
 import type { FieldErrors } from "@/lib/schemas";
 import type { UpdateDraft } from "./ScheduleWizard";
 import styles from "./steps.module.css";
@@ -26,6 +26,12 @@ interface Props {
 
 export function RetailerStep({ draft, update, errors, headingRef }: Props) {
   const [query, setQuery] = useState("");
+  // Check the email once they've left the field (or tried to continue), then
+  // keep the message in step with what they type.
+  const [emailTouched, setEmailTouched] = useState(false);
+  const emailProblem = checkContactEmail(draft.contactEmail);
+  const showLive = emailTouched && draft.contactEmail.trim() !== "";
+  const emailError = errors.contactEmail ?? (showLive ? emailProblem?.message : undefined);
   const searching = query.trim().length > 0;
   const popular = POPULAR_RETAILER_IDS.map((id) => getRetailer(id)!);
 
@@ -55,7 +61,7 @@ export function RetailerStep({ draft, update, errors, headingRef }: Props) {
         <Field
           label="Your email"
           required
-          error={errors.contactEmail}
+          error={emailError}
           hint="We'll email your pickup details and tracking number. Only used for this confirmation."
         >
           {(control) => (
@@ -66,10 +72,20 @@ export function RetailerStep({ draft, update, errors, headingRef }: Props) {
               autoComplete="email"
               value={draft.contactEmail}
               onChange={(event) => update("contactEmail", event.target.value)}
+              onBlur={() => setEmailTouched(true)}
               placeholder="you@example.com"
             />
           )}
         </Field>
+        {emailError && emailProblem?.suggestion && (
+          <button
+            type="button"
+            className={styles.suggestion}
+            onClick={() => update("contactEmail", emailProblem.suggestion!)}
+          >
+            Use {emailProblem.suggestion}
+          </button>
+        )}
       </div>
 
       <h2 className={styles.subheading}>Where did you buy it?</h2>

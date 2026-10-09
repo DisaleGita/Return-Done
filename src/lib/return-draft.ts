@@ -1,3 +1,4 @@
+import { checkDomainRules } from "./email/email-rules";
 import { OTHER_RETAILER_ID, getRetailer } from "./retailers";
 import { daysBetween, isISODate, parseISODate } from "./dates";
 import { isSlotBookable } from "./scheduling";
@@ -120,13 +121,28 @@ export function draftToInput(draft: ReturnDraft): Record<string, unknown> {
 }
 
 /** Validates the fields owned by one wizard step. Keys match draft field names. */
+/**
+ * Problems with the email the customer typed: format, then typos ("gnail.com"),
+ * placeholders ("abc.com") and throwaway inboxes. Shown while they fill in the
+ * form; the server repeats these checks and also looks up the domain.
+ */
+export function checkContactEmail(value: string): { message: string; suggestion?: string } | null {
+  const email = value.trim();
+  if (!email) return { message: "Enter your email so we can send your confirmation" };
+  const format = retailerSchema.shape.contactEmail.safeParse(email);
+  if (!format.success) return { message: "Enter a valid email address" };
+  const rules = checkDomainRules(email);
+  return rules.ok ? null : { message: rules.message, suggestion: rules.suggestion };
+}
+
 export function validateStep(step: WizardStepId, draft: ReturnDraft, now: Date): FieldErrors {
   const input = draftToInput(draft);
 
   if (step === "retailer") {
     const result = retailerSchema.safeParse(input);
-    if (result.success) return {};
-    const errors = toFieldErrors(result.error);
+    const errors = result.success ? {} : toFieldErrors(result.error);
+    const emailProblem = errors.contactEmail ? null : checkContactEmail(draft.contactEmail);
+    if (emailProblem) errors.contactEmail = emailProblem.message;
     // The name error belongs to the "Other retailer" text field.
     if (errors.retailerName) {
       if (draft.retailerId === OTHER_RETAILER_ID) errors.customRetailerName = errors.retailerName;
